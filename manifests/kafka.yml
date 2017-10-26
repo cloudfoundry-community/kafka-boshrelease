@@ -8,6 +8,21 @@ addons:
     release: bpm
 
 instance_groups:
+- name: zookeeper
+  azs: [z1, z2, z3]
+  instances: 3
+  jobs:
+  - name: zookeeper
+    release: zookeeper
+    properties: {}
+  - name: status
+    release: zookeeper
+    properties: {}
+  vm_type: default
+  stemcell: default
+  persistent_disk: 10240
+  networks:
+  - name: default
 - name: kafka
   azs: [z1, z2, z3]
   instances: 1
@@ -37,6 +52,9 @@ releases:
 - name: bpm
   version: 0.2.0
   url: git+https://github.com/cloudfoundry-incubator/bpm-release
+- name: zookeeper
+  version: 0.0.7
+  url: git+https://github.com/cppforlife/zookeeper-release
 - name: kafka
   version: latest # TODO: update after first final release
   # url:            TODO: update after first final release
