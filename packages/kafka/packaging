@@ -1,0 +1,5 @@
+set -e -u
+
+tar xzvf ${BOSH_COMPILE_TARGET}/kafka/kafka_2.12-*.tgz
+
+cp -a ${BOSH_COMPILE_TARGET}/kafka_2.12-*/* ${BOSH_INSTALL_TARGET}/

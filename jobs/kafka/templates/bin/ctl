@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+export JAVA_HOME=/var/vcap/packages/java
+export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+
+export CLASSPATH=${CLASSPATH:-''}
+for jar_dir in $(ls -d /var/vcap/packages/**/*.jar); do
+  export CLASSPATH=${jar_dir}:$CLASSPATH
+done
+
+case $1 in
+
+  start)
+    exec /var/vcap/packages/kafka/bin/kafka-server-start.sh \
+      /var/vcap/jobs/kafka/config/server.properties
+    ;;
+
+  *)
+    echo "Usage: $0 {start|status|cli}"
+    exit 1
+    ;;
+
+esac
+exit 0

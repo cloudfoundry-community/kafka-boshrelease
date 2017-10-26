@@ -1,6 +1,32 @@
 ---
 name: kafka
-packages: []
+
+packages:
+- java
+- kafka
+
 templates:
-  ignoreme: ignoreme
-properties: {}
+  bin/ctl: bin/ctl
+  config/bpm.yml: config/bpm.yml
+  config/server.properties: config/server.properties
+
+# Documentation https://bosh.io/docs/links.html
+# Tutorial      https://gist.github.com/Amit-PivotalLabs/c39528248b8cdc4ba8e347f8aa68abb6
+consumes:
+- name: zookeeper
+  type: zookeeper
+
+provides:
+- name: kafka
+  type: conn
+  properties:
+  - listen_port
+
+properties:
+  listen_port:
+    description: "The port to listen for client connections"
+    default: 9092
+
+  delete_topic:
+    description: "Switch to enable topic deletion or not"
+    default: false

@@ -28,6 +28,7 @@ instance_groups:
   instances: 1
   vm_type: default
   stemcell: default
+  persistent_disk: 10240
   networks: [{name: default}]
   jobs:
   - name: kafka

@@ -1,0 +1,5 @@
+---
+name: java
+dependencies: []
+files:
+- openjdk/openjdk-1.8.0_101-x86_64-trusty.tar.gz

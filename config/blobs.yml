@@ -1,1 +1,6 @@
---- {}
+kafka/kafka_2.12-0.11.0.0.tgz:
+  size: 36644420
+  sha: 3dac78b99cd84ff9a8c7b6d12025c391a2b34008
+openjdk/openjdk-1.8.0_101-x86_64-trusty.tar.gz:
+  size: 77696717
+  sha: d77ee059e289ae52fb87812f1a2932268427dc26

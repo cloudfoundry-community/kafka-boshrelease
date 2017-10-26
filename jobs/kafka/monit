@@ -1,0 +1,5 @@
+check process kafka
+  with pidfile /var/vcap/sys/run/bpm/kafka/kafka.pid
+  start program "/var/vcap/jobs/bpm/bin/bpm start kafka"
+  stop program "/var/vcap/jobs/bpm/bin/bpm stop kafka"
+  group vcap
