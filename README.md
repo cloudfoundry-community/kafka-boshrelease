@@ -17,7 +17,7 @@ If your BOSH does not have Credhub/Config Server, then remember `--vars-store` t
 
 ### Update
 
-When new versions of `redis-boshrelease` are released the `manifests/redis.yml` file will be updated. This means you can easily `git pull` and `bosh deploy` to upgrade.
+When new versions of `kafka-boshrelease` are released the `manifests/kafka.yml` file will be updated. This means you can easily `git pull` and `bosh deploy` to upgrade.
 
 ```
 export BOSH_ENVIRONMENT=<bosh-alias>
@@ -25,5 +25,5 @@ export BOSH_DEPLOYMENT=kafka
 cd kafka-boshrelease
 git pull
 cd -
-bosh deploy kafka-boshrelease/manifests/redis.yml
+bosh deploy kafka-boshrelease/manifests/kafka.yml
 ```
