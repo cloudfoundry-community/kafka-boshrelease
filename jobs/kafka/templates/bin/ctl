@@ -2,7 +2,7 @@
 
 set -e
 
-export JAVA_HOME=/var/vcap/packages/java
+export JAVA_HOME=/var/vcap/packages/openjdk
 export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
 
 export CLASSPATH=${CLASSPATH:-''}
