@@ -10,7 +10,8 @@ This repository includes base manifests and operator files. They can be used for
 export BOSH_ENVIRONMENT=<bosh-alias>
 export BOSH_DEPLOYMENT=kafka
 git clone https://github.com/cloudfoundry-community/kafka-boshrelease.git
-bosh deploy kafka-boshrelease/manifests/kafka.yml
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o <(manifests/operators/pick-from-cloud-config.sh)
 ```
 
 If your BOSH does not have Credhub/Config Server, then remember `--vars-store` to allow generation of passwords and certificates.
@@ -25,5 +26,6 @@ export BOSH_DEPLOYMENT=kafka
 cd kafka-boshrelease
 git pull
 cd -
-bosh deploy kafka-boshrelease/manifests/kafka.yml
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o <(manifests/operators/pick-from-cloud-config.sh)
 ```
