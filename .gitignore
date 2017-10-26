@@ -16,3 +16,4 @@ blobs/*
 *#
 #*
 tmp
+ci/.deploy.yml
