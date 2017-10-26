@@ -1,0 +1,26 @@
+#!/bin/bash
+
+export JAVA_HOME=/var/vcap/packages/openjdk
+export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+
+export CLASSPATH=${CLASSPATH:-''}
+for jar_dir in $(ls -d /var/vcap/packages/**/*.jar); do
+  export CLASSPATH=${jar_dir}:$CLASSPATH
+done
+
+export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/kafka/config/log4j.properties"
+export LOG_DIR=/var/vcap/sys/log/kafka
+
+<% zks = link('zookeeper') %>
+<% zk_port = zks.p('client_port') %>
+<% list =  zks.instances.map { |instance| "#{instance.address}:#{zk_port}" }.join(",") %>
+
+<% p("topics").each do |topic| %>
+/var/vcap/packages/kafka/bin/kafka-topics.sh \
+    --create \
+    --zookeeper <%= list %> \
+    --replication-factor <%= topic["replication_factor"] %> \
+    --partitions <%= topic["partitions"] %> \
+    --topic <%= topic["name"] %> \
+    --if-not-exists
+<% end %>
