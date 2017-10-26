@@ -11,6 +11,7 @@ for jar_dir in $(ls -d /var/vcap/packages/**/*.jar); do
 done
 
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/kafka/config/log4j.properties"
+export LOG_DIR=/var/vcap/sys/log/kafka
 
 case $1 in
 
