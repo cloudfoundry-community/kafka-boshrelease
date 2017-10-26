@@ -16,6 +16,16 @@ bosh deploy kafka-boshrelease/manifests/kafka.yml \
 
 If your BOSH does not have Credhub/Config Server, then remember `--vars-store` to allow generation of passwords and certificates.
 
+### Topics
+
+You can pre-define some simple topics using an operator script `./manifests/operators/simple-topics.sh`. Th
+
+```
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o <(manifests/operators/pick-from-cloud-config.sh) \
+  -o <(manifests/operators/simple-topics.sh test1 test2)
+```
+
 ### Update
 
 When new versions of `kafka-boshrelease` are released the `manifests/kafka.yml` file will be updated. This means you can easily `git pull` and `bosh deploy` to upgrade.
