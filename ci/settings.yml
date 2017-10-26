@@ -3,7 +3,7 @@ meta:
   name:    kafka
   target:  sw
   url:     https://ci.starkandwayne.com
-  test-errand: sanity-tests
+  test-errand: ~
 
   initial_version: 1.0.0
 
