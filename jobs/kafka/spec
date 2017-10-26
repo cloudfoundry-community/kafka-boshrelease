@@ -1,0 +1,6 @@
+---
+name: kafka
+packages: []
+templates:
+  ignoreme: ignoreme
+properties: {}

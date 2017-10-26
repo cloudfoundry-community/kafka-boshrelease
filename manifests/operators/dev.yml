@@ -1,0 +1,6 @@
+---
+- type: replace
+  path: /releases/name=kafka
+  value:
+    name: kafka
+    version: latest
