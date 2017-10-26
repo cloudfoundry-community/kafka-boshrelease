@@ -19,8 +19,8 @@ export LOG_DIR=/var/vcap/sys/log/kafka
 /var/vcap/packages/kafka/bin/kafka-topics.sh \
     --create \
     --zookeeper <%= list %> \
-    --replication-factor <%= topic["replication_factor"] %> \
-    --partitions <%= topic["partitions"] %> \
+    --replication-factor <%= topic["replication_factor"] || 1 %> \
+    --partitions <%= topic["partitions"] || 1 %> \
     --topic <%= topic["name"] %> \
     --if-not-exists
 <% end %>
