@@ -28,7 +28,9 @@ bosh deploy kafka-boshrelease/manifests/kafka.yml \
 
 ### Kafka Manager
 
-The Yahoo Kakfa Manager UI is installed on each Kafka node. You can access it via port 8080. To access via http://localhost:8080, open a tunnel:
+![kafka-manager](https://github.com/cloudfoundry-community/kafka-boshrelease/raw/master/doc/kafka-manager.png)
+
+The [Yahoo Kafka Manager](https://github.com/yahoo/kafka-manager) UI is installed on each Kafka node. You can access it via port 8080. To access via http://localhost:8080, open a tunnel:
 
 ```
 bosh ssh kafka/0 -- -L 8080:127.0.0.1:8080
