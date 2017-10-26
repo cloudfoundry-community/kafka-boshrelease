@@ -1,0 +1,5 @@
+set -e -u
+
+unzip ${BOSH_COMPILE_TARGET}/kafka/kafka-manager-*.zip
+
+cp -a ${BOSH_COMPILE_TARGET}/kafka-manager-*/* ${BOSH_INSTALL_TARGET}/

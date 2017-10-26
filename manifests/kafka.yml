@@ -34,6 +34,9 @@ instance_groups:
   - name: kafka
     release: kafka
     properties: {}
+  - name: kafka-manager
+    release: kafka
+    properties: {}
 
 variables: []
 

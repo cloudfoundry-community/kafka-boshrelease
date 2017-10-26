@@ -1,0 +1,23 @@
+---
+name: kafka-manager
+
+packages:
+- openjdk
+- kafka-manager
+
+templates:
+  bin/ctl: bin/ctl
+  config/bpm.yml: config/bpm.yml
+  config/application.conf: config/application.conf
+  config/logback.xml: config/logback.xml
+
+# Documentation https://bosh.io/docs/links.html
+# Tutorial      https://gist.github.com/Amit-PivotalLabs/c39528248b8cdc4ba8e347f8aa68abb6
+consumes:
+- name: zookeeper
+  type: zookeeper
+
+properties:
+  listen_port:
+    description: "The port to listen for http connections"
+    default: 8080
