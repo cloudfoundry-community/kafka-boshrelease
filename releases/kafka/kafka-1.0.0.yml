@@ -1,0 +1,33 @@
+name: kafka
+version: 1.0.0
+commit_hash: dc19f65
+uncommitted_changes: false
+jobs:
+- name: kafka
+  version: 7028f8f80ac8551d052e4df63a6cd2e7be634fde
+  fingerprint: 7028f8f80ac8551d052e4df63a6cd2e7be634fde
+  sha1: 9350232739ba59b45ddbfd9ff9dde2d1efb048bb
+- name: kafka-manager
+  version: dc27c4ba4f18524da4c20879402ad66ebc8585a1
+  fingerprint: dc27c4ba4f18524da4c20879402ad66ebc8585a1
+  sha1: b21b39245cc291013892653166db097946af59aa
+packages:
+- name: kafka
+  version: 2029a8a662f163b981017ff05911f33d6de91ed6
+  fingerprint: 2029a8a662f163b981017ff05911f33d6de91ed6
+  sha1: 186bc13f134ad68763d207fd9cbcdef483145484
+  dependencies: []
+- name: kafka-manager
+  version: dae20e99e0af3e63fb50ceb30c8a4c995577c73a
+  fingerprint: dae20e99e0af3e63fb50ceb30c8a4c995577c73a
+  sha1: 7f3593be79c021eab7aafa5dd07a63857a02a607
+  dependencies: []
+- name: openjdk
+  version: dd8adc6ee521b5301015698276728e90b5ecdfd0
+  fingerprint: dd8adc6ee521b5301015698276728e90b5ecdfd0
+  sha1: 4d1324933beec284476eab8b645bb8bc91d0dd15
+  dependencies: []
+license:
+  version: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  fingerprint: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  sha1: 85005308d61eae1836621c975d842e607b2fcf22
