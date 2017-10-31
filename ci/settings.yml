@@ -113,6 +113,6 @@ resources:
 - name: kafka
   type: apache-directory-index
   source:
-    directory: https://archive.apache.org/dist/kafka
+    directory: https://archive.apache.org/dist/kafka/
     folder_pattern: $VERSION
     file_pattern: kafka_2.12-$VERSION.tgz
