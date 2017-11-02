@@ -70,7 +70,7 @@ jobs:
         BLOB_DIR:    kafka
         BLOB_NAME:   kafka
         BLOB_BINARY: kafka*.tgz
-        BLOB_URL:    https://github.com/kafka/kafka
+        BLOB_URL:    https://archive.apache.org/dist/kafka/
         BLOB_DESTINATION: kafka/kafka_2.12-${VERSION}.tgz
         BLOB_CLEANUP:     kafka/kafka_2.*
         AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
@@ -107,7 +107,7 @@ resource_types:
   type: docker-image
   source:
     repository: mastertinner/apache-directory-index-resource
-    tag: feature_support-longer-version-numbers
+    tag: latest
 
 resources:
 - name: kafka
