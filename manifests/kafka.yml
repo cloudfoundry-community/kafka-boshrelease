@@ -72,6 +72,6 @@ releases:
   version: 0.0.7
   url: git+https://github.com/cppforlife/zookeeper-release
 - name: kafka
-  version: 1.1.1
-  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v1.1.1/kafka-1.1.1.tgz
-  sha1: f17a345e7f18bcfdbc8979e6bff41532869d9505
+  version: 1.1.2
+  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v1.1.2/kafka-1.1.2.tgz
+  sha1: 8b2b1e7e76ade890f5d697ba30e052cfe4db1c35
