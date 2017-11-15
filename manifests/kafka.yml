@@ -34,11 +34,23 @@ instance_groups:
   - name: kafka
     release: kafka
     properties: {}
+- name: kafka-manager
+  azs: [z1, z2, z3]
+  instances: 1
+  vm_type: default
+  stemcell: default
+  persistent_disk: 10240
+  networks: [{name: default}]
+  jobs:
   - name: kafka-manager
     release: kafka
-    properties: {}
+    properties:
+      username: admin
+      password: ((kafka-manager-password))
 
-variables: []
+variables:
+- name: kafka-manager-password
+  type: password
 
 stemcells:
 - alias: default

@@ -26,3 +26,9 @@ properties:
   name:
     description: "Name given to cluster when it is automatically registered"
     default: BOSH
+
+  username:
+    description: Basic auth credentials
+    default: admin
+  password:
+    description: Basic auth credentials
