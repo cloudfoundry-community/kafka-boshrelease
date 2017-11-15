@@ -24,9 +24,13 @@ instance_groups:
     properties: {}
   - name: kafka-manager
     release: kafka
-    properties: {}
+    properties:
+      username: admin
+      password: ((kafka-manager-password))
 
-variables: []
+variables:
+- name: kafka-manager-password
+  type: password
 
 stemcells:
 - alias: default
