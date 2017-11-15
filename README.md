@@ -11,7 +11,7 @@ export BOSH_ENVIRONMENT=<bosh-alias>
 export BOSH_DEPLOYMENT=kafka
 git clone https://github.com/cloudfoundry-community/kafka-boshrelease.git
 bosh deploy kafka-boshrelease/manifests/kafka.yml \
-  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh)
+  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh kafka-boshrelease/manifests/kafka.yml)
 ```
 
 If your BOSH does not have Credhub/Config Server, then remember `--vars-store` to allow generation of passwords and certificates.
@@ -22,7 +22,7 @@ You can pre-define some simple topics using an operator script `./manifests/oper
 
 ```
 bosh deploy kafka-boshrelease/manifests/kafka.yml \
-  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh) \
+  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh kafka-boshrelease/manifests/kafka.yml) \
   -o <(kafka-boshrelease/manifests/operators/simple-topics.sh test1 test2)
 ```
 
