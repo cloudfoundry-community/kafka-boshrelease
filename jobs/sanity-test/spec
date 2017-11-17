@@ -1,5 +1,15 @@
 ---
 name: sanity-test
-packages: []
+
+packages:
+- openjdk
+- kafka
+
 templates:
   bin/run: bin/run
+
+consumes:
+- name: zookeeper
+  type: zookeeper
+- name: kafka
+  type: conn

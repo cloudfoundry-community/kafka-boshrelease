@@ -7,4 +7,22 @@ set -u # report the usage of uninitialized variables
 
 ############################################################################
 
-# put your errand steps here...
+export JAVA_HOME=/var/vcap/packages/openjdk
+export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+
+<% zks = link('zookeeper') %>
+<% zk_port = zks.p('client_port') %>
+export zk_peers=<%= zks.instances.map { |instance| "#{instance.address}:#{zk_port}" }.join(",") %>
+
+<% kafka = link('kafka') %>
+<% kafka_port = kafka.p('listen_port') %>
+export kafka_hosts=<%= kafka.instances.map { |instance| "#{instance.address}:#{kafka_port}" }.join(",") %>
+
+export testpath=/var/vcap/sys/run/sanity-test
+mkdir -p $testpath
+
+set -x
+kafka-topics.sh --zookeeper $zk_peers --create --if-not-exists --replication-factor 1 --partitions 1 --topic test > $testpath/demo.out
+echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test 2>/dev/null 
+kafka-console-consumer.sh --zookeeper $zk_peers --topic test --from-beginning --max-messages 1 >> $testpath/demo.out 2>/dev/null
+kafka-topics.sh --zookeeper $zk_peers --delete --topic test >> $testpath/demo.out 2>/dev/null
