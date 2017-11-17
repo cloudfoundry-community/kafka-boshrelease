@@ -47,6 +47,16 @@ instance_groups:
     properties:
       username: admin
       password: ((kafka-manager-password))
+- name: sanity-test
+  azs: [z1, z2, z3]
+  instances: 1
+  lifecycle: errand
+  vm_type: default
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
+  - name: sanity-test
+    release: kafka
 
 variables:
 - name: kafka-manager-password

@@ -1,0 +1,5 @@
+---
+name: sanity-test
+packages: []
+templates:
+  bin/run: bin/run
