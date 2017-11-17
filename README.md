@@ -12,6 +12,8 @@ export BOSH_DEPLOYMENT=kafka
 git clone https://github.com/cloudfoundry-community/kafka-boshrelease.git
 bosh deploy kafka-boshrelease/manifests/kafka.yml \
   -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh kafka-boshrelease/manifests/kafka.yml)
+
+bosh run-errand sanity-test
 ```
 
 If your BOSH does not have Credhub/Config Server, then remember `--vars-store` to allow generation of passwords and certificates.

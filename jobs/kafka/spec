@@ -12,8 +12,6 @@ templates:
   config/server.properties: config/server.properties
   config/log4j.properties: config/log4j.properties
 
-# Documentation https://bosh.io/docs/links.html
-# Tutorial      https://gist.github.com/Amit-PivotalLabs/c39528248b8cdc4ba8e347f8aa68abb6
 consumes:
 - name: zookeeper
   type: zookeeper
