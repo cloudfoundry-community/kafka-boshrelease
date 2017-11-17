@@ -1,0 +1,1 @@
+* Add `sanity-test` errand
