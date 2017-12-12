@@ -33,7 +33,8 @@ instance_groups:
   jobs:
   - name: kafka
     release: kafka
-    properties: {}
+    properties:
+      insecure_plaintext: true
 - name: kafka-manager
   azs: [z1, z2, z3]
   instances: 1

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+set -eux
+set -o pipefail
+
+CDIR=/var/vcap/jobs/kafka/config
+KT=/var/vcap/packages/openjdk/bin/keytool
+SP=notasecret
+
+TS=$CDIR/generated.truststore.jks
+KS=$CDIR/generated.keystore.jks
+TK=$CDIR/generated.key.p12
+
+echo "removing any old generated files"
+rm -f $TS $KS $TK
+
+<% if p("insecure_plaintext") %>
+echo "please consider not setting insecure_plaintext"
+<% else %>
+
+echo "writing trust store"
+$KT -noprompt -import -storepass $SP -keystore $TS -file $CDIR/ca_certs.pem
+
+echo "converting key/cert into PKCS12 because java"
+openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -password pass:$SP -name localhost
+
+echo "writing key store"
+$KT -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -alias localhost
+<% end %>

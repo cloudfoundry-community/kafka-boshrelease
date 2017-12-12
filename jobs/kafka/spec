@@ -6,11 +6,15 @@ packages:
 - kafka
 
 templates:
+  bin/pre-start: bin/pre-start
   bin/ctl: bin/ctl
   bin/post-deploy: bin/post-deploy
   config/bpm.yml: config/bpm.yml
   config/server.properties: config/server.properties
   config/log4j.properties: config/log4j.properties
+  config/ca_certs.pem: config/ca_certs.pem
+  config/cert.pem: config/cert.pem
+  config/key.pem: config/key.pem
 
 consumes:
 - name: zookeeper
@@ -18,14 +22,18 @@ consumes:
 
 provides:
 - name: kafka
-  type: conn
+  type: kafka
   properties:
   - listen_port
+  - dns_suffix
 
 properties:
   listen_port:
     description: "The port to listen for client connections"
     default: 9092
+
+  dns_suffix:
+    description: "Here so we can provide it elsewhere"
 
   topics:
     default: []
@@ -38,3 +46,18 @@ properties:
   delete_topic:
     description: "Switch to enable topic deletion or not"
     default: false
+
+  insecure_plaintext:
+    description: |
+      If set, allows plaintext connections to Kafka by clients with no authentication.
+      This used to be the default, so if you are upgrading, you'll probably need to set it to true.
+    default: false
+
+  tls.ca_certs:
+    description: |
+      List of CA certs used to verify clients (and other Kafka brokers) that connect to us
+    default: []
+
+  tls.certificate:
+    description: |
+      Certificate (needs private_key and certificate) used to act as both server, and client to other brokers
