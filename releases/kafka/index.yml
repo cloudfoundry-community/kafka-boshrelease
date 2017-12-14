@@ -7,6 +7,8 @@ builds:
     version: 1.1.3-govau-tls
   8b33420e-b6a6-4223-6cbe-54e1f8ee1746:
     version: 1.1.1
+  a8a02aa2-0174-4ff2-5067-c3bf87649301:
+    version: 1.1.5-govau-tls
   c02941ad-5f52-4b8e-6663-8c02e2fe7d53:
     version: 1.1.0
 format-version: "2"

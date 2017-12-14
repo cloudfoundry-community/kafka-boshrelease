@@ -1,0 +1,46 @@
+name: kafka
+version: 1.1.5-govau-tls
+commit_hash: 585f841
+uncommitted_changes: false
+jobs:
+- name: kafka
+  version: f7d1e9a0e09035c34755fed51974bdc4a48ecaf9
+  fingerprint: f7d1e9a0e09035c34755fed51974bdc4a48ecaf9
+  sha1: 8c018b618a510ebfe7a559933e8e36335bc1b9fc
+- name: kafka-firehose-nozzle
+  version: a0e30f2b27f551bcfd13396b6ff451898cc395c0
+  fingerprint: a0e30f2b27f551bcfd13396b6ff451898cc395c0
+  sha1: f7822f6b9f32accb578361332274f093ffb17f57
+- name: kafka-manager
+  version: 262e47c6a574c387da97f2647a1463cbcf3fabb9
+  fingerprint: 262e47c6a574c387da97f2647a1463cbcf3fabb9
+  sha1: e5d7b5e3b29fe36bd2f75fd4bf76237f23621313
+- name: sanity-test
+  version: 38cc17534f0611c38976c9c81502931f888c63b9
+  fingerprint: 38cc17534f0611c38976c9c81502931f888c63b9
+  sha1: e1819232d1ffdd9b09b496df739c92de1030b30a
+packages:
+- name: kafka
+  version: 2c363dcb9d9c2a41ede056f13dfcc2934b1a5756
+  fingerprint: 2c363dcb9d9c2a41ede056f13dfcc2934b1a5756
+  sha1: f26f9477298bd402a21e909a5625c650b1b46a22
+  dependencies: []
+- name: kafka-firehose-nozzle
+  version: 57e8fde516836eaacebaf243c0e2f7cd5127fc3a
+  fingerprint: 57e8fde516836eaacebaf243c0e2f7cd5127fc3a
+  sha1: 28dc2ba81c721d3e66375d956bbea0e8b04e3f18
+  dependencies: []
+- name: kafka-manager
+  version: dae20e99e0af3e63fb50ceb30c8a4c995577c73a
+  fingerprint: dae20e99e0af3e63fb50ceb30c8a4c995577c73a
+  sha1: 7f3593be79c021eab7aafa5dd07a63857a02a607
+  dependencies: []
+- name: openjdk
+  version: dd8adc6ee521b5301015698276728e90b5ecdfd0
+  fingerprint: dd8adc6ee521b5301015698276728e90b5ecdfd0
+  sha1: 4d1324933beec284476eab8b645bb8bc91d0dd15
+  dependencies: []
+license:
+  version: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  fingerprint: ac77a509d8b020148f8ce7b3ecce592f89c29c87
+  sha1: 85005308d61eae1836621c975d842e607b2fcf22
