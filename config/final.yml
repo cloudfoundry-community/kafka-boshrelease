@@ -2,5 +2,6 @@
 blobstore:
   provider: s3
   options:
+    region: ap-southeast-2
     bucket_name: dta-kafka-boshrelease
 final_name: kafka
