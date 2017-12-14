@@ -1,0 +1,38 @@
+subscription_id = "<%= p('cf.subscription_id') %>"
+
+
+[cf]
+doppler_address = "<%= p('cf.doppler_address') %>"
+
+uaa_address = "<%= p('uaa.url') %>"
+
+username = "<%= p('uaa.client_id') %>"
+password = "<%= p('uaa.client_secret') %>"
+
+[kafka]
+<%
+  kafkabrokers_ip = link("kafka").instances.map do |instance|
+    "\"kafka-#{instance.index}.#{link("kafka").p('dns_suffix')}:#{link("kafka").p('listen_port')}\""
+  end.join(',')
+%>
+brokers = [<%=kafkabrokers_ip%>]
+
+private_key = '''
+<%= p('kafka.client_certificate.private_key') %>
+'''
+
+certificate = '''
+<%= p('kafka.client_certificate.certificate') %>
+'''
+
+ca_certificates = [
+<% p("kafka.server_ca_certificates").each do |ca_cert| %>
+'''
+<%= ca_cert %>
+''',
+<% end %>
+]
+
+# The producer retry logic
+retry_max = 10
+retry_backoff_ms = 500

@@ -1,0 +1,4 @@
+[submodule "src/kafka-firehoze-nozzle"]
+	path = src/kafka-firehose-nozzle
+	url = https://github.com/govau/kafka-firehose-nozzle
+	branch = moartls

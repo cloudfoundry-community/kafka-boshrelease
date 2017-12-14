@@ -1,0 +1,9 @@
+---
+name: kafka-firehose-nozzle
+
+dependencies:
+- golang-1.9-linux
+
+files:
+- kafka-firehose-nozzle/**/*.go
+- kafka-firehose-nozzle/**/*.s

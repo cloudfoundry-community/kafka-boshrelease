@@ -1,0 +1,32 @@
+---
+name: kafka-firehose-nozzle
+
+templates:
+  bin/ctl: bin/ctl
+  config/config.toml.erb: config/config.toml
+
+packages:
+  - kafka-firehose-nozzle
+
+consumes:
+- name: kafka
+  type: kafka
+  properties:
+  - listen_port
+  - dns_suffix
+
+properties:
+  cf.subscription_id:
+    default: "kafka-firehose-nozzle"
+  cf.doppler_address:
+    description: "Firehose endpoint"
+  uaa.url:
+    description: "UAA server address"
+  uaa.client_id:
+    description: "Client ID use to connect to the nozzle should have doppler.firehose scope"
+  uaa.client_secret:
+    description: "Client secret use to connect to the nozzle"
+  kafka.client_certificate:
+    description: "Must have private_key and certificate attributes"
+  kafka.server_ca_certificates:
+    description: "List of certificates"
