@@ -1,14 +1,4 @@
-set -eu
-
-JOB=kafka-firehose-nozzle
-
-export GOROOT=$(readlink -nf /var/vcap/packages/golang-1.9-linux)
-export PATH=$GOROOT/bin:$PATH
-export GOPATH=${BOSH_COMPILE_TARGET}/${JOB}
+set -e -u
 
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-
-# Rename vendor to src so that we can use the parent dir as a GOPATH
-ln -s ${BOSH_COMPILE_TARGET}/${JOB}/vendor ${BOSH_COMPILE_TARGET}/${JOB}/src
-
-go build -o ${BOSH_INSTALL_TARGET}/bin/${JOB} ${BOSH_COMPILE_TARGET}/${JOB}/*.go
+tar -C ${BOSH_INSTALL_TARGET}/bin -xzvf ${BOSH_COMPILE_TARGET}/kafka-firehose-nozzle/kafka-firehose-nozzle.tgz

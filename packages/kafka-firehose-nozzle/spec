@@ -1,9 +1,6 @@
 ---
 name: kafka-firehose-nozzle
 
-dependencies:
-- golang-1.9-linux
-
+dependencies: []
 files:
-- kafka-firehose-nozzle/**/*.go
-- kafka-firehose-nozzle/**/*.s
+- kafka-firehose-nozzle/kafka-firehose-nozzle.tgz # https://github.com/govau/kafka-firehose-nozzle/releases/download/v0.1.2-govau-tls/kafka-firehose-nozzle.tgz

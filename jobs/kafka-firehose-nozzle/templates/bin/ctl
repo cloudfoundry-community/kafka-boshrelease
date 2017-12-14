@@ -15,7 +15,7 @@ case $1 in
 
     echo $$ > $PIDFILE
 
-    exec /var/vcap/packages/${JOB}/bin/${JOB} -log-level=DEBUG -stats-interval=10s -config $CONF_DIR/config.toml \
+    exec /var/vcap/packages/${JOB}/bin/${JOB} -log-level=<%= p('log_level') %> -stats-interval=10s -config $CONF_DIR/config.toml \
       >>  $LOG_DIR/${JOB}.stdout.log \
       2>> $LOG_DIR/${JOB}.stderr.log
 

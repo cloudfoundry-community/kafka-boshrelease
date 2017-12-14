@@ -16,6 +16,8 @@ consumes:
   - dns_suffix
 
 properties:
+  log_level:
+    default: INFO
   cf.subscription_id:
     default: "kafka-firehose-nozzle"
   cf.doppler_address:
