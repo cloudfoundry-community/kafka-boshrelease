@@ -1,6 +1,8 @@
 builds:
   03034ae7-8668-4666-739d-cdb47f676048:
     version: 1.0.0
+  1a4e6c84-666f-4830-7ade-1e2bd2648a73:
+    version: 1.1.6-govau-tls
   45db19a1-e9be-466b-46d6-f1b547a4ff65:
     version: 1.1.2
   671dc24f-6198-4987-71f3-8498112ecd48:
