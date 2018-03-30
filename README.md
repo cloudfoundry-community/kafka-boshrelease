@@ -16,6 +16,13 @@ bosh deploy kafka-boshrelease/manifests/kafka.yml \
 bosh run-errand sanity-test
 ```
 
+To speed up your deployment, you can use the pre-compiled BOSH release:
+
+```plain
+bosh deploy kafkatree-boshrelease/manifests/kafka.yml \
+  -o kafka-boshrelease/manifests/operators/use-compiled-releases.yml
+```
+
 If your BOSH does not have Credhub/Config Server, then remember `--vars-store` to allow generation of passwords and certificates.
 
 ### Topics
