@@ -1,0 +1,15 @@
+- path: /releases/name=kafka/url
+  type: replace
+  value: "https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka-1.2.0-ubuntu-trusty-3541.10-20180330-004910-614277967-20180330004918.tgz"
+- path: /releases/name=kafka/version
+  type: replace
+  value: "1.2.0"
+- path: /releases/name=kafka/sha1
+  type: replace
+  value: "3c52d1e2e3799491a71372b48b7efa30230b6e89"
+
+- path: /releases/name=kafka/stemcell?
+  type: replace
+  value:
+    os: "ubuntu-trusty"
+    version: "3541.10"
