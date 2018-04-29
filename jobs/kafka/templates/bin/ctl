@@ -12,6 +12,7 @@ done
 
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/jobs/kafka/config/log4j.properties"
 export LOG_DIR=/var/vcap/sys/log/kafka
+export JMX_PORT="<%= p("jmx_port") %>"
 
 case $1 in
 
