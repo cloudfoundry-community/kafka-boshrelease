@@ -51,7 +51,6 @@ instance_groups:
               factor: 1
             min:
               isr: 1
-      insecure_plaintext: true
 - name: kafka-manager
   azs: [z1, z2, z3]
   instances: 1

@@ -12,7 +12,7 @@ KS=$CDIR/generated.keystore.jks
 TK=$CDIR/generated.key.p12
 
 
-<% unless p("insecure_plaintext") %>
+<% if_p("tls.certificate") do %>
 echo "removing any old generated files"
 rm -f $TS $KS $TK
 

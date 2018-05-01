@@ -66,11 +66,6 @@ properties:
       - cluster2.foo.com:9092 # for broker2
       - cluster3.foo.com:9092 # for broker3
 
-  insecure_plaintext:
-    description: |
-      If set, allows plaintext connections to Kafka by clients with no authentication.
-    default: true
-
   tls.ca_certs:
     description: |
       List of CA certs used to verify clients (and other Kafka brokers) that connect to us
