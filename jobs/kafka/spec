@@ -25,6 +25,9 @@ provides:
   type: conn
   properties:
   - listen_port
+  - tls.ca_certs
+  - tls.certificate
+  - keystore_password
 
 properties:
   listen_port:
