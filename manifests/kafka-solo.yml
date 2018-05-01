@@ -36,6 +36,7 @@ instance_groups:
               factor: 1
             min:
               isr: 1
+      insecure_plaintext: true
   - name: kafka-manager
     release: kafka
     properties:
