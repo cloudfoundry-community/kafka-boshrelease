@@ -25,7 +25,6 @@ provides:
   type: conn
   properties:
   - listen_port
-  - dns_suffix
 
 properties:
   listen_port:
@@ -35,9 +34,6 @@ properties:
   jmx_port:
     description: "The port to listen for JMX connections, disabled by default"
     default: ''
-
-  dns_suffix:
-    description: "Here so we can provide it elsewhere"
 
   topics:
     default: []
