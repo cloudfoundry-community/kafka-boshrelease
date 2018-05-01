@@ -22,7 +22,7 @@ consumes:
 
 provides:
 - name: kafka
-  type: kafka
+  type: conn
   properties:
   - listen_port
   - dns_suffix
