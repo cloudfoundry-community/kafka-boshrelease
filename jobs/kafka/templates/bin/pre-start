@@ -11,12 +11,10 @@ TS=$CDIR/generated.truststore.jks
 KS=$CDIR/generated.keystore.jks
 TK=$CDIR/generated.key.p12
 
+
+<% unless p("insecure_plaintext") %>
 echo "removing any old generated files"
 rm -f $TS $KS $TK
-
-<% if p("insecure_plaintext") %>
-echo "please consider not setting insecure_plaintext"
-<% else %>
 
 echo "writing trust store"
 $KT -noprompt -import -storepass $SP -keystore $TS -file $CDIR/ca_certs.pem
