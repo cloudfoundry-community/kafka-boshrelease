@@ -17,11 +17,11 @@ echo "removing any old generated files"
 rm -f $TS $KS $TK
 
 echo "writing trust store"
-$KT -noprompt -import -storepass $SP -keystore $TS -file $CDIR/ca_certs.pem
+$KT -noprompt -import -storepass $SP -keystore $TS -storetype PKCS12 -file $CDIR/ca_certs.pem
 
 echo "converting key/cert into PKCS12 because java"
 openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -password pass:$SP -name localhost
 
 echo "writing key store"
-$KT -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -alias localhost
+$KT -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -deststoretype PKCS12 -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -srckeypass $SP -alias localhost
 <% end %>

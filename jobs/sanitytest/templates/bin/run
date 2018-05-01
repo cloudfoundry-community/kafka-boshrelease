@@ -19,9 +19,9 @@ TS=$CDIR/generated.truststore.jks
 KS=$CDIR/generated.keystore.jks
 TK=$CDIR/generated.key.p12
 
-keytool -noprompt -import -storepass $SP -keystore $TS -file $CDIR/ca_certs.pem
+keytool -noprompt -import -storepass $SP -keystore $TS -storetype PKCS12 -file $CDIR/ca_certs.pem
 openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -password pass:$SP -name localhost
-keytool -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -alias localhost
+keytool -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -deststoretype PKCS12 -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -srckeypass $SP -alias localhost
 <% end %>
 
 <% zks = link('zookeeper') %>
