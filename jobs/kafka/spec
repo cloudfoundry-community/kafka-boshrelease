@@ -74,3 +74,7 @@ properties:
   tls.certificate:
     description: |
       Certificate (needs private_key and certificate) used to act as both server, and client to other brokers
+
+  keystore_password:
+    description: "Keystore password"
+    default: notasecret

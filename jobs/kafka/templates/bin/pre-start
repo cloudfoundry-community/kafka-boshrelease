@@ -5,7 +5,7 @@ set -o pipefail
 
 CDIR=/var/vcap/jobs/kafka/config
 KT=/var/vcap/packages/openjdk/bin/keytool
-SP=notasecret
+SP=<%= p("keystore_password") %>
 
 TS=$CDIR/generated.truststore.jks
 KS=$CDIR/generated.keystore.jks
