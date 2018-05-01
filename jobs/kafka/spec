@@ -73,8 +73,7 @@ properties:
   insecure_plaintext:
     description: |
       If set, allows plaintext connections to Kafka by clients with no authentication.
-      This used to be the default, so if you are upgrading, you'll probably need to set it to true.
-    default: false
+    default: true
 
   tls.ca_certs:
     description: |
