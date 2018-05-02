@@ -10,6 +10,9 @@ for jar_dir in $(ls -d /var/vcap/packages/**/*.jar); do
   export CLASSPATH=${jar_dir}:$CLASSPATH
 done
 
+<% if p("enable_sasl_scram") %>
+export KAFKA_OPTS="-Djava.security.auth.login.config=/var/vcap/jobs/kafka/config/kafka_server_jaas.conf"
+<% end %>
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/jobs/kafka/config/log4j.properties"
 export LOG_DIR=/var/vcap/sys/log/kafka
 export JMX_PORT="<%= p("jmx_port") %>"

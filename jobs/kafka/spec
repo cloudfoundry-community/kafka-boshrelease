@@ -15,6 +15,7 @@ templates:
   config/ca_certs.pem: config/ca_certs.pem
   config/cert.pem: config/cert.pem
   config/key.pem: config/key.pem
+  config/kafka_server_jaas.conf: config/kafka_server_jaas.conf
 
 consumes:
 - name: zookeeper
@@ -28,6 +29,9 @@ provides:
   - tls.ca_certs
   - tls.certificate
   - keystore_password
+  - enable_sasl_scram
+  - jaas_admin.username
+  - jaas_admin.password
 
 properties:
   listen_port:
@@ -81,3 +85,15 @@ properties:
   keystore_password:
     description: "Keystore password"
     default: notasecret
+
+  enable_sasl_scram:
+    description: "Whether to use SASL/SCRAM for authentication"
+    default: false
+
+  jaas_admin.username:
+    description: "admin username used in JAAS configuration"
+    default: "admin"
+
+  jaas_admin.password:
+    description: "admin password used in JAAS configuration"
+    default: "admin-secret"

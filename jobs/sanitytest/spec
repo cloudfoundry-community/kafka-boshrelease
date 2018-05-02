@@ -7,7 +7,7 @@ packages:
 
 templates:
   bin/run: bin/run
-  config/client-ssl.properties: config/client-ssl.properties
+  config/client.properties: config/client.properties
   config/ca_certs.pem: config/ca_certs.pem
   config/cert.pem: config/cert.pem
   config/key.pem: config/key.pem
@@ -21,3 +21,6 @@ consumes:
   - tls.ca_certs
   - tls.certificate
   - keystore_password
+  - enable_sasl_scram
+  - jaas_admin.username
+  - jaas_admin.password

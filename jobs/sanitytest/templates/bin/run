@@ -36,6 +36,6 @@ mkdir -p $testpath
 
 set -x
 kafka-topics.sh --zookeeper $zk_peers --create --if-not-exists --replication-factor 1 --partitions 1 --topic test > $testpath/demo.out
-echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test --producer.config $CDIR/client-ssl.properties 2> /dev/null 
-kafka-console-consumer.sh --bootstrap-server $kafka_hosts --topic test --from-beginning --max-messages 1 --consumer.config $CDIR/client-ssl.properties >> $testpath/demo.out 2>/dev/null
+echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test --producer.config $CDIR/client.properties 2> /dev/null 
+kafka-console-consumer.sh --bootstrap-server $kafka_hosts --topic test --from-beginning --max-messages 1 --consumer.config $CDIR/client.properties >> $testpath/demo.out 2>/dev/null
 kafka-topics.sh --zookeeper $zk_peers --delete --topic test >> $testpath/demo.out 2>/dev/null

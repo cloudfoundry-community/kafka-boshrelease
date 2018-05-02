@@ -3,6 +3,9 @@
 set -eux
 set -o pipefail
 
+export JAVA_HOME=/var/vcap/packages/openjdk
+export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+
 CDIR=/var/vcap/jobs/kafka/config
 KT=/var/vcap/packages/openjdk/bin/keytool
 SP=<%= p("keystore_password") %>
@@ -24,4 +27,19 @@ openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -passwor
 
 echo "writing key store"
 $KT -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -deststoretype PKCS12 -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -srckeypass $SP -alias localhost
+<% end %>
+
+
+<% zks = link('zookeeper') %>
+<% zk_port = zks.p('client_port') %>
+<% list =  zks.instances.map { |instance| "#{instance.address}:#{zk_port}" }.join(",") %>
+
+<% if p("enable_sasl_scram") %>
+/var/vcap/packages/kafka/bin/kafka-configs.sh \
+    --zookeeper <%= list %> \
+    --alter \
+    --add-config 'SCRAM-SHA-256=[password=<%= p("jaas_admin.password") %>],SCRAM-SHA-512=[password=<%= p("jaas_admin.password") %>]' \
+    --entity-type users \
+    --entity-name <%= p("jaas_admin.username") %> \
+    --force
 <% end %>
