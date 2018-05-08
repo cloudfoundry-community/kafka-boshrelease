@@ -42,3 +42,15 @@ properties:
   delete_topic:
     description: "Switch to enable topic deletion or not"
     default: false
+
+  offsets.topic.replication.factor:
+    description: "The replication factor for the offsets topic"
+    default: 3
+
+  transaction.state.log.replication.factor:
+    description: "The replication factor for the transaction topic"
+    default: 3
+
+  transaction.state.log.min.isr:
+    description: "Overridden min.insync.replicas config for the transaction topic"
+    default: 2

@@ -24,5 +24,5 @@ mkdir -p $testpath
 set -x
 kafka-topics.sh --zookeeper $zk_peers --create --if-not-exists --replication-factor 1 --partitions 1 --topic test > $testpath/demo.out
 echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test 2>/dev/null 
-kafka-console-consumer.sh --zookeeper $zk_peers --topic test --from-beginning --max-messages 1 >> $testpath/demo.out 2>/dev/null
+kafka-console-consumer.sh --bootstrap-server $kafka_hosts --topic test --from-beginning --max-messages 1 >> $testpath/demo.out 2>/dev/null
 kafka-topics.sh --zookeeper $zk_peers --delete --topic test >> $testpath/demo.out 2>/dev/null
