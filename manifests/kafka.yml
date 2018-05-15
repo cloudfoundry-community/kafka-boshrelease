@@ -90,20 +90,20 @@ releases:
   sha1: 6e56cb7a2cb4b844d3c1d8fddcc08335d1f1f5e1
   stemcell:
     os: ubuntu-trusty
-    version: 1.3586.7
+    version: "3586.7"
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-0.6.0-ubuntu-trusty-3586.7-20180515-225859-636152916-20180515225908.tgz
   version: 0.6.0
 - name: zookeeper
   sha1: d5a67438141ddba22acbfbb3f1bc9c759ed7ae62
   stemcell:
     os: ubuntu-trusty
-    version: 1.3586.7
+    version: "3586.7"
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-trusty-3586.7-20180515-225907-338782705-20180515225917.tgz
   version: 0.0.9
 - name: kafka
   sha1: 820f891b3d39b256355458c230b7da6093b30f1f
   stemcell:
     os: ubuntu-trusty
-    version: 1.3586.7
+    version: "3586.7"
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-1.2.1-ubuntu-trusty-3586.7-20180515-225651-383030107-20180515225700.tgz
   version: 1.2.1
