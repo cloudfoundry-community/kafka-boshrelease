@@ -3,4 +3,5 @@
   path: /releases/name=kafka
   value:
     name: kafka
-    version: latest
+    version: create
+    url: file://.
