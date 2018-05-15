@@ -76,7 +76,7 @@ variables:
 stemcells:
 - alias: default
   os: ubuntu-trusty
-  version: latest
+  version: 3586.latest
 
 update:
   canaries: 1

@@ -132,7 +132,7 @@ jobs:
       - get: github
         resource: bpm-release
         trigger: true
-      - get: ubuntu-trusty-stemcell-3541
+      - get: ubuntu-trusty-stemcell-3586
         params: {tarball: false}
     - task: export-release
       config:
@@ -144,7 +144,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-trusty-stemcell-3541
+          - name: ubuntu-trusty-stemcell-3586
             path: stemcell
           - name: github
             path: release
@@ -171,7 +171,7 @@ jobs:
       - get: github
         resource: zookeeper-boshrelease
         trigger: true
-      - get: ubuntu-trusty-stemcell-3541
+      - get: ubuntu-trusty-stemcell-3586
         params: {tarball: false}
     - task: export-release
       config:
@@ -183,7 +183,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-trusty-stemcell-3541
+          - name: ubuntu-trusty-stemcell-3586
             path: stemcell
           - name: github
             path: release
