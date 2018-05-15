@@ -23,7 +23,7 @@ meta:
     private_key:  ((github-private-key))
     access_token: ((github-access-token))
 
-  bosh:
+  bosh-lite:
     target:   ((bosh-lite-environment))
     cacert:   ((bosh-lite-ca-cert))
     username: ((bosh-lite-client))
@@ -41,6 +41,11 @@ groups:
 - name: blobs
   jobs:
   - kafka
+- name: compiled-releases
+  jobs:
+    - (( append ))
+    - bpm-compile-release
+    - zookeeper-compile-release
 
 jobs:
 - name: kafka
@@ -102,6 +107,100 @@ jobs:
         icon_url: (( grab meta.slack.icon ))
         text:     (( grab meta.slack.blob_failure ))
 
+- name: use-compiled-releases
+  plan:
+    - name: aggregate
+      aggregate:
+        - (( append ))
+        - get: bpm-compiled-release
+          passed: [bpm-compile-release]
+        - get: zookeeper-compiled-release
+          passed: [zookeeper-compile-release]
+    - name: use-compiled-releases
+      config:
+        inputs:
+          - (( append ))
+          - name: bpm-compiled-release
+          - name: zookeeper-compiled-release
+
+- name: bpm-compile-release
+  public: true
+  serial: true
+  plan:
+    - aggregate:
+      - get: git
+      - get: github
+        resource: bpm-release
+        trigger: true
+      - get: ubuntu-trusty-stemcell-3541
+        params: {tarball: false}
+    - task: export-release
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: (( grab meta.image.name ))
+            tag:        (( grab meta.image.tag ))
+        inputs:
+          - name: git
+          - name: ubuntu-trusty-stemcell-3541
+            path: stemcell
+          - name: github
+            path: release
+        outputs:
+          - name: compiled-release
+        run:
+          path: git/ci/scripts/export-release
+        params:
+          BOSH_ENVIRONMENT:   (( grab meta.bosh-lite.target ))
+          BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
+          BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
+          BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
+          STEMCELL_CPI:       (( grab meta.bosh-lite.stemcell.cpi ))
+    - put: bpm-compiled-release
+      params:
+        file: "compiled-release/compiled-releases/bpm/*.tgz"
+
+- name: zookeeper-compile-release
+  public: true
+  serial: true
+  plan:
+    - aggregate:
+      - get: git
+      - get: github
+        resource: zookeeper-boshrelease
+        trigger: true
+      - get: ubuntu-trusty-stemcell-3541
+        params: {tarball: false}
+    - task: export-release
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: (( grab meta.image.name ))
+            tag:        (( grab meta.image.tag ))
+        inputs:
+          - name: git
+          - name: ubuntu-trusty-stemcell-3541
+            path: stemcell
+          - name: github
+            path: release
+        outputs:
+          - name: compiled-release
+        run:
+          path: git/ci/scripts/export-release
+        params:
+          BOSH_ENVIRONMENT:   (( grab meta.bosh-lite.target ))
+          BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
+          BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
+          BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
+          STEMCELL_CPI:       (( grab meta.bosh-lite.stemcell.cpi ))
+    - put: zookeeper-compiled-release
+      params:
+        file: "compiled-release/compiled-releases/zookeeper/*.tgz"
+
 resource_types:
 - name: apache-directory-index
   type: docker-image
@@ -116,3 +215,31 @@ resources:
     directory: https://archive.apache.org/dist/kafka/
     folder_pattern: $VERSION
     file_pattern: kafka_2.12-$VERSION.tgz
+
+- name: bpm-release
+  type: bosh-io-release
+  source:
+    repository: cloudfoundry-incubator/bpm-release
+
+- name: bpm-compiled-release
+  type: s3
+  source:
+    bucket:            (( grab meta.aws.bucket ))
+    region_name:       (( grab meta.aws.region_name ))
+    access_key_id:     (( grab meta.aws.access_key ))
+    secret_access_key: (( grab meta.aws.secret_key ))
+    regexp:            "compiled-releases/bpm/.*-(\\d+).tgz"
+
+- name: zookeeper-boshrelease
+  type: bosh-io-release
+  source:
+    repository: cppforlife/zookeeper-release
+
+- name: zookeeper-compiled-release
+  type: s3
+  source:
+    bucket:            (( grab meta.aws.bucket ))
+    region_name:       (( grab meta.aws.region_name ))
+    access_key_id:     (( grab meta.aws.access_key ))
+    secret_access_key: (( grab meta.aws.secret_key ))
+    regexp:            "compiled-releases/zookeeper/.*-(\\d+).tgz"
