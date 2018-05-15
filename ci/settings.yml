@@ -23,7 +23,7 @@ meta:
     private_key:  ((github-private-key))
     access_token: ((github-access-token))
 
-  bosh-lite:
+  bosh:
     target:   ((bosh-lite-environment))
     cacert:   ((bosh-lite-ca-cert))
     username: ((bosh-lite-client))
