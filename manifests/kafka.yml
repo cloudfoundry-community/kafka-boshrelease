@@ -87,12 +87,12 @@ update:
 
 releases:
 - name: bpm
-  version: 0.2.0
   url: git+https://github.com/cloudfoundry-incubator/bpm-release
+  version: 0.2.0
 - name: zookeeper
-  version: 0.0.7
   url: git+https://github.com/cppforlife/zookeeper-release
+  version: 0.0.7
 - name: kafka
-  version: 1.2.0
-  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v1.2.0/kafka-1.2.0.tgz
-  sha1: 560fb70a2c318174a514e02fabec7d21fe528988
+  sha1: 9f8fe52a7098124d0396aeeb946a69283652c734
+  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v1.2.1/kafka-1.2.1.tgz
+  version: 1.2.1
