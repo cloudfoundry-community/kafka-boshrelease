@@ -12,7 +12,7 @@ if [[ -z $(git config --global user.name) ]]; then
 fi
 
 STEMCELL_OS=${STEMCELL_OS:-ubuntu-trusty}
-STEMCELL_VERSION=1.$(cat stemcell/version)
+STEMCELL_VERSION=$(cat stemcell/version)
 
 releases=($(ls -d *compiled-release))
 
