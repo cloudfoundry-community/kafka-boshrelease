@@ -66,7 +66,7 @@ instance_groups:
   stemcell: default
   networks: [{name: default}]
   jobs:
-  - name: sanity-test
+  - name: sanitytest
     release: kafka
 
 variables:

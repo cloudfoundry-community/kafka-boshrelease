@@ -1,5 +1,5 @@
 ---
-name: sanity-test
+name: sanitytest
 
 packages:
 - openjdk-8
