@@ -71,9 +71,9 @@ releases:
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-trusty-3586.7-20180515-225907-338782705-20180515225917.tgz
   version: 0.0.9
 - name: kafka
-  sha1: 820f891b3d39b256355458c230b7da6093b30f1f
+  sha1: a3a11298e0e0effccaa2377b2a719a7d614e643f
   stemcell:
     os: ubuntu-trusty
     version: "3586.7"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-1.2.1-ubuntu-trusty-3586.7-20180515-225651-383030107-20180515225700.tgz
-  version: 1.2.1
+  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v1.3.0/kafka-1.3.0.tgz
+  version: 1.3.0
