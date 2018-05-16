@@ -7,8 +7,8 @@ set -u # report the usage of uninitialized variables
 
 ############################################################################
 
-export JAVA_HOME=/var/vcap/packages/openjdk
-export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+source /var/vcap/packages/openjdk-8/bosh/runtime.env
+export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
 <% zks = link('zookeeper') %>
 <% zk_port = zks.p('client_port') %>

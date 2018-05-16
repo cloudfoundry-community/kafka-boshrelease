@@ -2,8 +2,8 @@
 
 set -e
 
-export JAVA_HOME=/var/vcap/packages/openjdk
-export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+source /var/vcap/packages/openjdk-8/bosh/runtime.env
+export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
 export CLASSPATH=${CLASSPATH:-''}
 for jar_dir in $(ls -d /var/vcap/packages/**/*.jar); do

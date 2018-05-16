@@ -1,5 +1,0 @@
-set -e -u
-
-mkdir -p ${BOSH_INSTALL_TARGET}
-cd ${BOSH_INSTALL_TARGET}
-tar zxvf ${BOSH_COMPILE_TARGET}/openjdk/openjdk-1.8.0_101-x86_64-trusty.tar.gz

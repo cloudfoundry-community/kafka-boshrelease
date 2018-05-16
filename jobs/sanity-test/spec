@@ -2,7 +2,7 @@
 name: sanity-test
 
 packages:
-- openjdk
+- openjdk-8
 - kafka
 
 templates:
