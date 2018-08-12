@@ -57,12 +57,12 @@ update:
 
 releases:
 - name: bpm
-  sha1: 6e56cb7a2cb4b844d3c1d8fddcc08335d1f1f5e1
+  sha1: e9a8d5dc34e2100c527f98fab35507cba208cdb7
   stemcell:
     os: ubuntu-trusty
     version: "3586.7"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-0.6.0-ubuntu-trusty-3586.7-20180515-225859-636152916-20180515225908.tgz
-  version: 0.6.0
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-0.9.0-ubuntu-trusty-3586.27-20180810-223125-206133839-20180810223132.tgz
+  version: 0.9.0
 - name: zookeeper
   sha1: d5a67438141ddba22acbfbb3f1bc9c759ed7ae62
   stemcell:
