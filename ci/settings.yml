@@ -132,7 +132,7 @@ jobs:
       - get: github
         resource: bpm-release
         trigger: true
-      - get: ubuntu-trusty-stemcell-3586
+      - get: ubuntu-xenial-stemcell-97
         params: {tarball: false}
     - task: export-release
       config:
@@ -144,7 +144,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-trusty-stemcell-3586
+          - name: ubuntu-xenial-stemcell-97
             path: stemcell
           - name: github
             path: release
@@ -157,7 +157,6 @@ jobs:
           BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
           BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
           BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
-          STEMCELL_CPI:       (( grab meta.bosh-lite.stemcell.cpi ))
     - put: bpm-compiled-release
       params:
         file: "compiled-release/compiled-releases/bpm/*.tgz"
@@ -171,7 +170,7 @@ jobs:
       - get: github
         resource: zookeeper-boshrelease
         trigger: true
-      - get: ubuntu-trusty-stemcell-3586
+      - get: ubuntu-xenial-stemcell-97
         params: {tarball: false}
     - task: export-release
       config:
@@ -183,7 +182,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-trusty-stemcell-3586
+          - name: ubuntu-xenial-stemcell-97
             path: stemcell
           - name: github
             path: release
@@ -196,7 +195,6 @@ jobs:
           BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
           BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
           BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
-          STEMCELL_CPI:       (( grab meta.bosh-lite.stemcell.cpi ))
     - put: zookeeper-compiled-release
       params:
         file: "compiled-release/compiled-releases/zookeeper/*.tgz"
