@@ -5,5 +5,6 @@
 
 ## Versions
 
-Bumped https://archive.apache.org/dist/kafka/ to v2.0.1
-Bumped bpm to 0.13.0
+* Bumped https://archive.apache.org/dist/kafka/ to v2.0.1
+* Bumped OpenJDK8 to jdk8u192-b03
+* Bumped bpm to 0.13.0

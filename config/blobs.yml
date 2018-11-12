@@ -6,7 +6,3 @@ kafka/kafka_2.12-2.0.1.tgz:
   size: 49446678
   object_id: 6419d1df-0641-4182-4c13-60d381c59f4c
   sha: b3cc946f9bd3d2d36d878852f8a06b6929d94832
-openjdk/openjdk-1.8.0_101-x86_64-trusty.tar.gz:
-  size: 77696717
-  object_id: aa0a8789-29ff-462f-631c-0716cc70bda5
-  sha: d77ee059e289ae52fb87812f1a2932268427dc26

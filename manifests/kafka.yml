@@ -75,8 +75,8 @@ variables:
 
 stemcells:
 - alias: default
-  os: ubuntu-trusty
-  version: 3586.latest
+  os: ubuntu-xenial
+  version: 97.latest
 
 update:
   canaries: 1
@@ -91,16 +91,10 @@ releases:
   url: "https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=0.13.0"
   sha1: "4b6ebfdaa467c04855528172b099e565d679e0f5"
 - name: zookeeper
-  sha1: d5a67438141ddba22acbfbb3f1bc9c759ed7ae62
-  stemcell:
-    os: ubuntu-trusty
-    version: "3586.27"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-trusty-3586.7-20180515-225907-338782705-20180515225917.tgz
-  version: 0.0.9
+  version: "0.0.9"
+  url: "https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.9"
+  sha1: "c0c7cf0111ec0941aa2243530f8d418bd892c47c"
 - name: kafka
-  sha1: 42e4303df11e836260c8c0c73b010e98233258c1
-  stemcell:
-    os: ubuntu-trusty
-    version: "3586.27"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.0.0-ubuntu-trusty-3586.27-20180812-233210-674039991-20180812233217.tgz
-  version: 2.0.0
+  version: "2.0.0"
+  url: "https://bosh.io/d/github.com/cloudfoundry-community/kafka-boshrelease?v=2.0.0"
+  sha1: "1d65874ba023b0b56afac9aa654e5eb9cd9a7385"
