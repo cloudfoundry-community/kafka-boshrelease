@@ -87,14 +87,23 @@ update:
 
 releases:
 - name: bpm
-  version: "0.13.0"
-  url: "https://bosh.io/d/github.com/cloudfoundry-incubator/bpm-release?v=0.13.0"
-  sha1: "4b6ebfdaa467c04855528172b099e565d679e0f5"
+  sha1: b30a3a6c296b91e2a8ad716188d5e1fc3aedd42b
+  stemcell:
+    os: ubuntu-xenial
+    version: "170.5"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-0.13.0-ubuntu-xenial-170.5-20181112-233615-145722839-20181112233621.tgz
+  version: 0.13.0
 - name: zookeeper
-  version: "0.0.9"
-  url: "https://bosh.io/d/github.com/cppforlife/zookeeper-release?v=0.0.9"
-  sha1: "c0c7cf0111ec0941aa2243530f8d418bd892c47c"
+  sha1: 14f34a5470d6c43c5663308dabe92167c16fc381
+  stemcell:
+    os: ubuntu-xenial
+    version: "170.5"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-xenial-170.5-20181112-234055-046983265-20181112234105.tgz
+  version: 0.0.9
 - name: kafka
-  version: "2.0.0"
-  url: "https://bosh.io/d/github.com/cloudfoundry-community/kafka-boshrelease?v=2.0.0"
-  sha1: "1d65874ba023b0b56afac9aa654e5eb9cd9a7385"
+  sha1: 62c9b57033c27b32fc454cdc7caf9edcf9db58fa
+  stemcell:
+    os: ubuntu-xenial
+    version: "170.5"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.0.0-ubuntu-xenial-170.5-20181112-233536-126813699-20181112233543.tgz
+  version: 2.0.0
