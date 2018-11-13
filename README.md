@@ -10,8 +10,7 @@ This repository includes base manifests and operator files. They can be used for
 export BOSH_ENVIRONMENT=<bosh-alias>
 export BOSH_DEPLOYMENT=kafka
 git clone https://github.com/cloudfoundry-community/kafka-boshrelease.git
-bosh deploy kafka-boshrelease/manifests/kafka.yml \
-  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh kafka-boshrelease/manifests/kafka.yml)
+bosh deploy kafka-boshrelease/manifests/kafka.yml
 
 bosh run-errand sanity-test
 ```
@@ -24,7 +23,6 @@ You can pre-define some simple topics using an operator script `./manifests/oper
 
 ```plain
 bosh deploy kafka-boshrelease/manifests/kafka.yml \
-  -o <(kafka-boshrelease/manifests/operators/pick-from-cloud-config.sh kafka-boshrelease/manifests/kafka.yml) \
   -o <(kafka-boshrelease/manifests/operators/simple-topics.sh test1 test2)
 ```
 

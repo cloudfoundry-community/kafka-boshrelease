@@ -19,20 +19,15 @@ if [[ -z ${cloud_config} ]]; then
   echo "BOSH env missing a cloud-config"
   exit 1
 fi
-vm_type=$(bosh int <(echo "$cloud_config") --path /vm_types/0/name)
 network=$(bosh int <(echo "$cloud_config") --path /networks/0/name)
 
->&2 echo "vm_type: ${vm_type}, network: ${network}"
+>&2 echo "network: ${network}"
 
 for ig in $instance_groups; do
 cat <<YAML
 - type: replace
   path: /instance_groups/name=${ig}/networks/name=default/name
   value: ${network}
-
-- type: replace
-  path: /instance_groups/name=${ig}/vm_type
-  value: ${vm_type}
 
 YAML
 done
