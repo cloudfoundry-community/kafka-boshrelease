@@ -1,5 +1,6 @@
 ## Updates
 
+* switched from `vm_type: default` to `vm_resources` to allow CPI to determine which instance type to use
 * update CI pipeline
 * update to Xenial stemcells for testing, poduction manifest, and pre-compiled releases
 

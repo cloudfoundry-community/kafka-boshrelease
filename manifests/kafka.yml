@@ -18,7 +18,10 @@ instance_groups:
   - name: status
     release: zookeeper
     properties: {}
-  vm_type: default
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
   stemcell: default
   persistent_disk: 10240
   networks:
@@ -26,7 +29,10 @@ instance_groups:
 - name: kafka
   azs: [z1, z2, z3]
   instances: 1
-  vm_type: default
+  vm_resources:
+    cpu: 2
+    ram: 2048
+    ephemeral_disk_size: 10240
   stemcell: default
   persistent_disk: 10240
   networks: [{name: default}]
@@ -48,7 +54,10 @@ instance_groups:
 - name: kafka-manager
   azs: [z1, z2, z3]
   instances: 1
-  vm_type: default
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
   stemcell: default
   persistent_disk: 10240
   networks: [{name: default}]
@@ -62,7 +71,10 @@ instance_groups:
   azs: [z1, z2, z3]
   instances: 1
   lifecycle: errand
-  vm_type: default
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
   stemcell: default
   networks: [{name: default}]
   jobs:
