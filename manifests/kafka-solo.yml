@@ -74,9 +74,9 @@ releases:
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-xenial-170.5-20181112-234055-046983265-20181112234105.tgz
   version: 0.0.9
 - name: kafka
-  sha1: f2829bbf2981e867fc567fc94ef027d46d740693
+  sha1: df0895f3adc14604023f8b3d1a82c4c525e4e9a4
   stemcell:
     os: ubuntu-xenial
     version: "170.5"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.1.0-ubuntu-xenial-170.5-20181113-012844-868639607-20181113012853.tgz
-  version: 2.1.0
+  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v2.2.0/kafka-2.2.0.tgz
+  version: 2.2.0
