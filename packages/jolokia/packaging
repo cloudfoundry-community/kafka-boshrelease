@@ -1,0 +1,3 @@
+set -e -u
+
+cp jolokia-jvm-1.6.0-agent.jar ${BOSH_INSTALL_TARGET}/

@@ -54,3 +54,7 @@ properties:
   transaction.state.log.min.isr:
     description: "Overridden min.insync.replicas config for the transaction topic"
     default: 2
+
+  jolokia.enabled:
+    description: "Enable Jolokia JVM Agent"
+    default: false

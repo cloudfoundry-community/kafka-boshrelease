@@ -13,6 +13,9 @@ done
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/jobs/kafka/config/log4j.properties"
 export LOG_DIR=/var/vcap/sys/log/kafka
 export JMX_PORT="<%= p("jmx_port") %>"
+<% if p("jolokia.enabled") %>
+export EXTRA_ARGS="-javaagent:/var/vcap/packages/jolokia/jolokia-jvm-1.6.0-agent.jar"
+<% end %>
 
 case $1 in
 
