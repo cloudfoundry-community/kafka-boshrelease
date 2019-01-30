@@ -117,10 +117,6 @@ YAML
 for ig_name in $(spruce json ${MANIFEST_PATH} | jq -r ".instance_groups[].name"); do
 cat >> tmp/deployment.yml <<YAML
 - type: replace
-  path: /instance_groups/name=${ig_name}/vm_type
-  value: ${vm_type}
-
-- type: replace
   path: /instance_groups/name=${ig_name}/networks
   value: [{name: ${network}}]
 
