@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export JAVA_HOME=/var/vcap/packages/openjdk
+source /var/vcap/packages/openjdk-8/bosh/runtime.env
 export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
 
 export CLASSPATH=${CLASSPATH:-''}
