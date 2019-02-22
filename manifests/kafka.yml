@@ -99,23 +99,23 @@ update:
 
 releases:
 - name: bpm
-  sha1: 74e46b56c1e923198428f8ef096851bef8c29d63
+  sha1: 53f5110cf27d99c9bfd2f4800a39a8cab3625153
   stemcell:
     os: ubuntu-xenial
-    version: "170.25"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-1.0.2-ubuntu-xenial-170.25-20190130-041024-343577954-20190130041031.tgz
-  version: 1.0.2
+    version: "170.30"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-1.0.3-ubuntu-xenial-170.25-20190212-175522-819086925-20190212175528.tgz
+  version: 1.0.3
 - name: zookeeper
   sha1: 14f34a5470d6c43c5663308dabe92167c16fc381
   stemcell:
     os: ubuntu-xenial
-    version: "170.25"
+    version: "170.30"
   url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-xenial-170.5-20181112-234055-046983265-20181112234105.tgz
   version: 0.0.9
 - name: kafka
-  sha1: 599d5c32d77f4eaea792678ac7f6c8b5030eb727
+  sha1: f5d8b9ba488378bb43bca3039ec42610a7143d39
   stemcell:
     os: ubuntu-xenial
-    version: "170.25"
-  url: https://github.com/cloudfoundry-community/kafka-boshrelease/releases/download/v2.2.2/kafka-2.2.2.tgz
+    version: "170.30"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.2.2-ubuntu-xenial-170.30-20190222-011637-405654158-20190222011644.tgz
   version: 2.2.2
