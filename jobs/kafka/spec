@@ -6,7 +6,7 @@ packages:
 - kafka
 
 templates:
-  bin/pre-start: bin/pre-start
+  bin/pre-start: bin/bpm-pre-start
   bin/ctl: bin/ctl
   bin/post-deploy: bin/post-deploy
   config/bpm.yml: config/bpm.yml
