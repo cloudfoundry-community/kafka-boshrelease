@@ -2,7 +2,7 @@
 name: kafka
 
 packages:
-- openjdk-8
+- openjdk-8-kafka
 - kafka
 
 templates:
@@ -26,7 +26,7 @@ properties:
   listen_port:
     description: "The port to listen for client connections"
     default: 9092
-  
+
   jmx_port:
     description: "The port to listen for JMX connections, disabled by default"
     default: ''

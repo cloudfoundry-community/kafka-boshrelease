@@ -2,7 +2,7 @@
 
 set -e
 
-source /var/vcap/packages/openjdk-8/bosh/runtime.env
+source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
 export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
 export CLASSPATH=${CLASSPATH:-''}
