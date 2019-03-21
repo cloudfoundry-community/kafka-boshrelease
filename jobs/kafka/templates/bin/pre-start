@@ -3,11 +3,11 @@
 set -eux
 set -o pipefail
 
-export JAVA_HOME=/var/vcap/packages/openjdk
-export PATH=$JAVA_HOME/bin:/var/vcap/packages/kafka/bin:$PATH
+source /var/vcap/packages/openjdk-8/bosh/runtime.env
+export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
 CDIR=/var/vcap/jobs/kafka/config
-KT=/var/vcap/packages/openjdk/bin/keytool
+KT=$JAVA_HOME/bin/keytool
 SP=<%= p("keystore_password") %>
 
 TS=$CDIR/generated.truststore.jks

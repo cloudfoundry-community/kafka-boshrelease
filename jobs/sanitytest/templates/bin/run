@@ -10,7 +10,7 @@ set -u # report the usage of uninitialized variables
 source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
 export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
-CDIR=/var/vcap/jobs/sanity-test/config
+CDIR=/var/vcap/jobs/sanitytest/config
 <% kafka = link('kafka') %>
 <% if kafka.p("tls.certificate", nil) != nil %>
 SP=<%= kafka.p("keystore_password") %>
@@ -31,7 +31,7 @@ export zk_peers=<%= zks.instances.map { |instance| "#{instance.address}:#{zk_por
 <% kafka_port = kafka.p('listen_port') %>
 export kafka_hosts=<%= kafka.instances.map { |instance| "#{instance.address}:#{kafka_port}" }.join(",") %>
 
-export testpath=/var/vcap/sys/run/sanity-test
+export testpath=/var/vcap/sys/run/sanitytest
 mkdir -p $testpath
 
 set -x
