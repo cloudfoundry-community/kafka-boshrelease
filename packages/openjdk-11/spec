@@ -6,4 +6,4 @@ dependencies: []
 files:
 - openjdk-11/compile.env
 - openjdk-11/runtime.env
-- jdk8u202-b01.tar.gz
+- java/openjdk-11.0.2_09.tar.gz

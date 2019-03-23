@@ -6,7 +6,7 @@ cp openjdk-8/compile.env ${BOSH_INSTALL_TARGET}/bosh/compile.env
 
 cd ${BOSH_INSTALL_TARGET}
 mkdir jre
-tar zxvf ${BOSH_COMPILE_TARGET}/jdk*.tar.gz -C jre
+tar zxvf ${BOSH_COMPILE_TARGET}/java/openjdk*.tar.gz -C jre
 
 # latest JRE release didn't have correct permissions
 chmod -R a+r jre
