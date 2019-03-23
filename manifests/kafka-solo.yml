@@ -48,8 +48,8 @@ variables:
 
 stemcells:
 - alias: default
-  os: ubuntu-trusty
-  version: latest
+  os: ubuntu-xenial
+  version: 170.latest
 
 update:
   canaries: 1
