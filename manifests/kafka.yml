@@ -88,7 +88,7 @@ variables:
 stemcells:
 - alias: default
   os: ubuntu-xenial
-  version: 170.latest
+  version: 250.latest
 
 update:
   canaries: 1
