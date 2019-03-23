@@ -1,0 +1,9 @@
+---
+name: openjdk-8
+
+dependencies: []
+
+files:
+- openjdk-11/compile.env
+- openjdk-11/runtime.env
+- jdk8u202-b01.tar.gz
