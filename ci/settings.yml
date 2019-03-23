@@ -132,7 +132,7 @@ jobs:
       - get: github
         resource: bpm-release
         trigger: true
-      - get: ubuntu-xenial-stemcell-170
+      - get: ubuntu-xenial-stemcell-250
         params: {tarball: false}
     - task: export-release
       config:
@@ -144,7 +144,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-xenial-stemcell-170
+          - name: ubuntu-xenial-stemcell-250
             path: stemcell
           - name: github
             path: release
@@ -170,7 +170,7 @@ jobs:
       - get: github
         resource: zookeeper-boshrelease
         trigger: true
-      - get: ubuntu-xenial-stemcell-170
+      - get: ubuntu-xenial-stemcell-250
         params: {tarball: false}
     - task: export-release
       config:
@@ -182,7 +182,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-xenial-stemcell-170
+          - name: ubuntu-xenial-stemcell-250
             path: stemcell
           - name: github
             path: release
