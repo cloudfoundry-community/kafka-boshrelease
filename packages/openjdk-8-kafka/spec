@@ -1,9 +1,9 @@
 ---
-name: openjdk-8
+name: openjdk-8-kafka
 
 dependencies: []
 
 files:
 - openjdk-8/compile.env
 - openjdk-8/runtime.env
-- jdk8u202-b01.tar.gz
+- java/jdk*.tar.gz
