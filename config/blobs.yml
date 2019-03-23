@@ -1,3 +1,7 @@
+java/openjdk-11.0.2_09.tar.gz:
+  size: 193733261
+  object_id: fd6fbdba-9293-4c6c-4840-6ba3b82e2f70
+  sha: 3a89ec252d081c80b26dcca00b9450f4ee202dd8
 kafka/kafka-manager-1.3.3.4.zip:
   size: 60436159
   object_id: fb58fb86-6852-4fcd-484b-e708125b5ba7
