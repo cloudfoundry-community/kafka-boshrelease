@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -eux
+set -o pipefail
+
+source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
+export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
+
+CDIR=/var/vcap/jobs/kafka/config
+KT=$JAVA_HOME/bin/keytool
+SP=<%= p("keystore_password") %>
+
+TS=$CDIR/generated.truststore.jks
+KS=$CDIR/generated.keystore.jks
+TK=$CDIR/generated.key.p12
+
+
+<% if_p("tls.certificate") do %>
+echo "removing any old generated files"
+rm -f $TS $KS $TK
+
+echo "writing trust store"
+$KT -noprompt -import -storepass $SP -keystore $TS -storetype PKCS12 -file $CDIR/ca_certs.pem
+
+echo "converting key/cert into PKCS12 because java"
+openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -password pass:$SP -name localhost
+
+echo "writing key store"
+$KT -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -deststoretype PKCS12 -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -srckeypass $SP -alias localhost
+<% end %>
+
+
+<% zks = link('zookeeper') %>
+<% zk_port = zks.p('client_port') %>
+<% list =  zks.instances.map { |instance| "#{instance.address}:#{zk_port}" }.join(",") %>
+
+<% if p("enable_sasl_scram") %>
+/var/vcap/packages/kafka/bin/kafka-configs.sh \
+    --zookeeper <%= list %> \
+    --alter \
+    --add-config 'SCRAM-SHA-256=[password=<%= p("jaas_admin.password") %>],SCRAM-SHA-512=[password=<%= p("jaas_admin.password") %>]' \
+    --entity-type users \
+    --entity-name <%= p("jaas_admin.username") %> \
+    --force
+<% end %>

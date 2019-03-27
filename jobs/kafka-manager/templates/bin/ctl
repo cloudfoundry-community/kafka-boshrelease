@@ -19,8 +19,8 @@ case $1 in
       -Dconfig.file=/var/vcap/jobs/kafka-manager/config/application.conf \
       -Dhttp.port=<%= properties.listen_port %> \
       -Dpidfile.path=/dev/null \
-      -Dlogger.file=/var/vcap/jobs/kafka-manager/config/logback.xml
-
+      -Dlogger.file=/var/vcap/jobs/kafka-manager/config/logback.xml \
+      -Djava.security.auth.login.config=/var/vcap/jobs/kafka-manager/config/jaas.conf
     ;;
 
   *)

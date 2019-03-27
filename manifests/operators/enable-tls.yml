@@ -1,0 +1,44 @@
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/advertised?/listener?
+  value:
+  - ((kafka-external-host)):9092
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/offsets?/topic?/replication?/factor?
+  value: 1
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/tls?
+  value:
+    ca_certs:
+    - ((kafka-ca.certificate))
+    certificate: ((kafka-tls))
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/keystore_password?
+  value: ((keystore-password))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: keystore-password
+    type: password
+- type: replace
+  path: /variables/-
+  value:
+    name: kafka-ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: kafka
+- type: replace
+  path: /variables/-
+  value:
+    name: kafka-tls
+    type: certificate
+    options:
+      ca: kafka-ca
+      common_name: localhost
+      alternative_names:
+      - ((kafka-external-host))
+      - '*.kafka.default.kafka.bosh'
+      extended_key_usage:
+      - client_auth
+      - server_auth

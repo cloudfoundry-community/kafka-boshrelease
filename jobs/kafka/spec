@@ -6,11 +6,16 @@ packages:
 - kafka
 
 templates:
+  bin/pre-start: bin/bpm-pre-start
   bin/ctl: bin/ctl
   bin/post-deploy: bin/post-deploy
   config/bpm.yml: config/bpm.yml
   config/server.properties: config/server.properties
   config/log4j.properties: config/log4j.properties
+  config/ca_certs.pem: config/ca_certs.pem
+  config/cert.pem: config/cert.pem
+  config/key.pem: config/key.pem
+  config/kafka_server_jaas.conf: config/kafka_server_jaas.conf
 
 consumes:
 - name: zookeeper
@@ -21,6 +26,12 @@ provides:
   type: conn
   properties:
   - listen_port
+  - tls.ca_certs
+  - tls.certificate
+  - keystore_password
+  - enable_sasl_scram
+  - jaas_admin.username
+  - jaas_admin.password
 
 properties:
   listen_port:
@@ -54,3 +65,35 @@ properties:
   transaction.state.log.min.isr:
     description: "Overridden min.insync.replicas config for the transaction topic"
     default: 2
+
+  advertised.listener:
+    desctiption: |-
+      List of hostname and port of an advertised listener for each kafka broker, e.g.
+      - cluster1.foo.com:9092 # for broker1
+      - cluster2.foo.com:9092 # for broker2
+      - cluster3.foo.com:9092 # for broker3
+
+  tls.ca_certs:
+    description: |
+      List of CA certs used to verify clients (and other Kafka brokers) that connect to us
+    default: []
+
+  tls.certificate:
+    description: |
+      Certificate (needs private_key and certificate) used to act as both server, and client to other brokers
+
+  keystore_password:
+    description: "Keystore password"
+    default: notasecret
+
+  enable_sasl_scram:
+    description: "Whether to use SASL/SCRAM for authentication"
+    default: false
+
+  jaas_admin.username:
+    description: "admin username used in JAAS configuration"
+    default: "admin"
+
+  jaas_admin.password:
+    description: "admin password used in JAAS configuration"
+    default: "admin-secret"

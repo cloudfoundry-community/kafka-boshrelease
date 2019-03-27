@@ -1,0 +1,13 @@
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/enable_sasl_scram?
+  value: true
+
+- type: replace
+  path: /instance_groups/name=kafka/jobs/name=kafka/properties/jaas_admin?/password?
+  value: ((jaas-admin-password))
+
+- type: replace
+  path: /variables/-
+  value:
+    name: jaas-admin-password
+    type: password

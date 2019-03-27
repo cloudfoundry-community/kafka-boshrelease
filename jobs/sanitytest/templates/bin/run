@@ -10,19 +10,32 @@ set -u # report the usage of uninitialized variables
 source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
 export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
+CDIR=/var/vcap/jobs/sanitytest/config
+<% kafka = link('kafka') %>
+<% if kafka.p("tls.certificate", nil) != nil %>
+SP=<%= kafka.p("keystore_password") %>
+
+TS=$CDIR/generated.truststore.jks
+KS=$CDIR/generated.keystore.jks
+TK=$CDIR/generated.key.p12
+
+keytool -noprompt -import -storepass $SP -keystore $TS -storetype PKCS12 -file $CDIR/ca_certs.pem
+openssl pkcs12 -export -in $CDIR/cert.pem -inkey $CDIR/key.pem -out $TK -password pass:$SP -name localhost
+keytool -importkeystore -deststorepass $SP -destkeypass $SP -destkeystore $KS -deststoretype PKCS12 -srckeystore $TK -srcstoretype PKCS12 -srcstorepass $SP -srckeypass $SP -alias localhost
+<% end %>
+
 <% zks = link('zookeeper') %>
 <% zk_port = zks.p('client_port') %>
 export zk_peers=<%= zks.instances.map { |instance| "#{instance.address}:#{zk_port}" }.join(",") %>
 
-<% kafka = link('kafka') %>
 <% kafka_port = kafka.p('listen_port') %>
 export kafka_hosts=<%= kafka.instances.map { |instance| "#{instance.address}:#{kafka_port}" }.join(",") %>
 
-export testpath=/var/vcap/sys/run/sanity-test
+export testpath=/var/vcap/sys/run/sanitytest
 mkdir -p $testpath
 
 set -x
 kafka-topics.sh --zookeeper $zk_peers --create --if-not-exists --replication-factor 1 --partitions 1 --topic test > $testpath/demo.out
-echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test 2>/dev/null 
-kafka-console-consumer.sh --bootstrap-server $kafka_hosts --topic test --from-beginning --max-messages 1 >> $testpath/demo.out 2>/dev/null
+echo "test message" | kafka-console-producer.sh --broker-list $kafka_hosts --topic test --producer.config $CDIR/client.properties 2> /dev/null 
+kafka-console-consumer.sh --bootstrap-server $kafka_hosts --topic test --from-beginning --max-messages 1 --consumer.config $CDIR/client.properties >> $testpath/demo.out 2>/dev/null
 kafka-topics.sh --zookeeper $zk_peers --delete --topic test >> $testpath/demo.out 2>/dev/null
