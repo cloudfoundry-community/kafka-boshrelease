@@ -6,17 +6,32 @@ packages:
 - kafka-manager
 
 templates:
+  bin/pre-start: bin/bpm-pre-start
   bin/ctl: bin/ctl
   bin/post-deploy: bin/post-deploy
   config/bpm.yml: config/bpm.yml
   config/application.conf: config/application.conf
   config/logback.xml: config/logback.xml
+  config/consumer.properties: config/consumer.properties
+  config/jaas.conf: config/jaas.conf
+  config/ca_certs.pem: config/ca_certs.pem
+  config/cert.pem: config/cert.pem
+  config/key.pem: config/key.pem
 
 # Documentation https://bosh.io/docs/links.html
 # Tutorial      https://gist.github.com/Amit-PivotalLabs/c39528248b8cdc4ba8e347f8aa68abb6
 consumes:
 - name: zookeeper
   type: zookeeper
+- name: kafka
+  type: conn
+  properties:
+  - tls.ca_certs
+  - tls.certificate
+  - keystore_password
+  - enable_sasl_scram
+  - jaas_admin.username
+  - jaas_admin.password
 
 properties:
   listen_port:
