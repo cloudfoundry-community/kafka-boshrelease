@@ -26,6 +26,31 @@ bosh deploy kafka-boshrelease/manifests/kafka.yml \
   -o <(kafka-boshrelease/manifests/operators/simple-topics.sh test1 test2)
 ```
 
+### Enable SASL/SCRAM and TLS
+
+You can enable [SASL/SCRAM](https://kafka.apache.org/documentation/#security_sasl_config) using `./manifests/operators/add-jaas.yml`. 
+`SASL_PLAINTEXT` and `SASL_TLS` are supported as a security protocol.
+
+```
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o kafka-boshrelease/manifests/operators/enable-jaas.yml
+```
+
+You can find `admin`'s password by `credhub get -n /(director name)/kafka/jaas-admin-password`.
+
+If you want to use `SASL_TLS`, use `./manifests/operators/add-tls.yml` as well.
+
+```
+
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o kafka-boshrelease/manifests/operators/enable-jaas.yml \
+  -o kafka-boshrelease/manifests/operators/enable-tls.yml \
+  -v kafka-external-host=${your-kafka-hostname-or-static-ip} \
+```
+
+`kafka-boshrelease/manifests/operators/enable-tls.yml` is supposed to be used for single kafka instance group.
+To scale out the kafka cluster, change `advertised.listener` property and `kafka-tls` variable.
+
 ### Kafka Manager
 
 ![kafka-manager](https://github.com/cloudfoundry-community/kafka-boshrelease/raw/master/doc/kafka-manager.png)
