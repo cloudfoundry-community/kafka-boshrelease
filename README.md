@@ -51,6 +51,20 @@ bosh deploy kafka-boshrelease/manifests/kafka.yml \
 `kafka-boshrelease/manifests/operators/enable-tls.yml` is supposed to be used for single kafka instance group.
 To scale out the kafka cluster, change `advertised.listener` property and `kafka-tls` variable.
 
+You can use Let's Encrypt as follows:
+
+```
+bosh deploy kafka-boshrelease/manifests/kafka.yml \
+  -o kafka-boshrelease/manifests/operators/enable-jaas.yml \
+  -o kafka-boshrelease/manifests/operators/enable-tls.yml \
+  --var-file kafka-tls.certificate=/etc/letsencrypt/live/your-kafka.example.com/fullchain.pem \
+  --var-file kafka-tls.private_key=/etc/letsencrypt/live/your-kafka.example.com/privkey.pem \
+  --var-file kafka-ca.certificate=<(curl https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem.txt) \
+  -v kafka-external-host=your-kafka.example.com
+```
+
+
+
 ### Kafka Manager
 
 ![kafka-manager](https://github.com/cloudfoundry-community/kafka-boshrelease/raw/master/doc/kafka-manager.png)
