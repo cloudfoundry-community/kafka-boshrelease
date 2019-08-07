@@ -60,23 +60,23 @@ update:
 
 releases:
 - name: bpm
-  sha1: 164b064b6aee268072739659ee5360a6f620d2c5
+  sha1: 63a0581216ccc153a38824289f0bd767605401e6
   stemcell:
     os: ubuntu-xenial
-    version: "250.23"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-1.0.3-ubuntu-xenial-250.23-20190323-022540-20451776-20190323022545.tgz
-  version: 1.0.3
+    version: "456.3"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-1.0.4-ubuntu-xenial-456.3-20190807-231000-929480708-20190807231006.tgz
+  version: 1.0.4
 - name: zookeeper
-  sha1: 7f3fc333aa8b844f70e106328f4440bfbc9bb821
+  sha1: 37abc951e6a3cacb4607186a42d33101ebd96500
   stemcell:
     os: ubuntu-xenial
-    version: "250.23"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.9-ubuntu-xenial-250.23-20190323-022303-721855212-20190323022311.tgz
-  version: 0.0.9
+    version: "456.3"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.10-ubuntu-xenial-456.3-20190807-230924-288267589-20190807230933.tgz
+  version: 0.0.10
 - name: kafka
-  sha1: a1531cd6410a4b9dda2014906cbee633b485a3c7
+  sha1: eaade6da771fcd8d547c24b9757740fed08bf009
   stemcell:
     os: ubuntu-xenial
-    version: "250.23"
-  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.2.3-ubuntu-xenial-250.23-20190323-023747-677211024-20190323023753.tgz
+    version: "456.3"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.2.3-ubuntu-xenial-456.3-20190807-230624-0729259-20190807230630.tgz
   version: 2.2.3
