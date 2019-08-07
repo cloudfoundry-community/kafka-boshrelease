@@ -13,6 +13,14 @@ done
 <% if p("enable_sasl_scram") %>
 export KAFKA_OPTS="-Djava.security.auth.login.config=/var/vcap/jobs/kafka/config/kafka_server_jaas.conf"
 <% end %>
+
+export HEAP_SIZE=$((( $( cat /proc/meminfo | grep MemTotal | awk '{ print $2 }' ) * 46 ) / 100 ))K
+
+<% if_p('heap_size') do |heap_size| %>
+HEAP_SIZE=<%= heap_size %>
+<% end %>
+
+export KAFKA_HEAP_OPTS="-Xms${HEAP_SIZE} -Xmx${HEAP_SIZE}"
 export KAFKA_LOG4J_OPTS="-Dlog4j.configuration=file:/var/vcap/jobs/kafka/config/log4j.properties"
 export LOG_DIR=/var/vcap/sys/log/kafka
 export JMX_PORT="<%= p("jmx_port") %>"
