@@ -23,11 +23,11 @@ meta:
     private_key:  ((github-private-key))
     access_token: ((github-access-token))
 
-  bosh-lite:
-    target:   ((bosh-lite-environment))
-    cacert:   ((bosh-lite-ca-cert))
-    username: ((bosh-lite-client))
-    password: ((bosh-lite-client-secret))
+  bosh:
+    target:   ((bosh_environment))
+    cacert:   ((bosh_ca_cert))
+    username: ((bosh_client))
+    password: ((bosh_client_secret))
 
   slack:
     webhook:  ((slack-webhook))
@@ -153,10 +153,10 @@ jobs:
         run:
           path: git/ci/scripts/export-release
         params:
-          BOSH_ENVIRONMENT:   (( grab meta.bosh-lite.target ))
-          BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
-          BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
-          BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
+          BOSH_ENVIRONMENT:   (( grab meta.bosh.target ))
+          BOSH_CA_CERT:       (( grab meta.bosh.cacert ))
+          BOSH_CLIENT:        (( grab meta.bosh.username ))
+          BOSH_CLIENT_SECRET: (( grab meta.bosh.password ))
     - put: bpm-compiled-release
       params:
         file: "compiled-release/compiled-releases/bpm/*.tgz"
@@ -191,10 +191,10 @@ jobs:
         run:
           path: git/ci/scripts/export-release
         params:
-          BOSH_ENVIRONMENT:   (( grab meta.bosh-lite.target ))
-          BOSH_CA_CERT:       (( grab meta.bosh-lite.cacert ))
-          BOSH_CLIENT:        (( grab meta.bosh-lite.username ))
-          BOSH_CLIENT_SECRET: (( grab meta.bosh-lite.password ))
+          BOSH_ENVIRONMENT:   (( grab meta.bosh.target ))
+          BOSH_CA_CERT:       (( grab meta.bosh.cacert ))
+          BOSH_CLIENT:        (( grab meta.bosh.username ))
+          BOSH_CLIENT_SECRET: (( grab meta.bosh.password ))
     - put: zookeeper-compiled-release
       params:
         file: "compiled-release/compiled-releases/zookeeper/*.tgz"
