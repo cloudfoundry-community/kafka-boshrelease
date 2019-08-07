@@ -42,6 +42,9 @@ properties:
     description: "The port to listen for JMX connections, disabled by default"
     default: ''
 
+  heap_size:
+    description: "set KAFKA_HEAP_OPTS"
+
   topics:
     default: []
     description: |-
