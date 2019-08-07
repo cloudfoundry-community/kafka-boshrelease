@@ -23,12 +23,6 @@ meta:
     private_key:  ((github-private-key))
     access_token: ((github-access-token))
 
-  bosh:
-    target:   ((bosh_environment))
-    cacert:   ((bosh_ca_cert))
-    username: ((bosh_client))
-    password: ((bosh_client_secret))
-
   slack:
     webhook:  ((slack-webhook))
     icon:     ((slack-logo))

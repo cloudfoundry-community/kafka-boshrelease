@@ -46,10 +46,10 @@ meta:
     access_token: (( param "Please generate a Personal Access Token to be used for creating github releases (do you have a ci-bot?)" ))
 
   bosh:
-    target:     (( param "Please specify the BOSH target URI for the bosh to run test deployments against" ))
-    cacert:     (( param "Please specify the BOSH Director Root CA cert" ))
-    username:   admin
-    password:   (( param "Please specify the BOSH Director admin password" ))
+    target:   ((bosh_environment))
+    cacert:   ((bosh_ca_cert))
+    username: ((bosh_client))
+    password: ((bosh_client_secret))
     deployment:    (( concat meta.name "-testflight" ))
     deployment-pr: (( concat meta.name "-testflight-pr" ))
 
