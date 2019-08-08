@@ -500,17 +500,12 @@ jobs:
       on_failure:
         put: notify
         params:
+          channel:  (( grab meta.slack.channel ))
+          username: (( grab meta.slack.username ))
+          icon_url: (( grab meta.slack.icon ))
           link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
           message: release candidate job 'pre' failed (which is unusual).
           ok: false
-          topic: (( concat meta.name "-$BUILD_JOB_NAME" ))
-      on_success:
-        put: notify
-        params:
-          link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
-          message: release candidate job 'pre' succeeded.
-          ok: true
-          topic: (( concat meta.name "-$BUILD_JOB_NAME" ))
 
 resource_types:
   - name: slack-notification
