@@ -68,6 +68,7 @@ groups:
     jobs:
       - testflight
       - testflight-pr
+      - pre
       - rc
       - shipit
       - compile-release-456
@@ -213,9 +214,13 @@ jobs:
     serial: true
     plan:
     - do:
-      - aggregate:
-          - { get: git,     trigger: false,  passed: [testflight] }
-          - { get: version, trigger: false, params: {pre: rc} }
+      - get: git
+        passed: [pre]
+        trigger: true
+      - get: version
+        passed: [pre]
+        params:
+          pre: rc
       - task: release-notes
         config:
           platform: linux
@@ -451,6 +456,61 @@ jobs:
         params:
           rebase: true
           repository: pushme
+
+  - name: pre
+    public: true
+    serial: true
+    plan:
+    - do:
+      - get: git
+        passed:
+        - testflight
+        trigger: true
+      - get: version
+        trigger: true
+      - task: release-notes
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: starkandwayne/concourse
+              tag: latest
+          run:
+            path: sh
+            args:
+            - -ce
+            - |
+              cd git
+              if [ -f ci/release_notes.md ]; then
+                echo "######   RELEASE NOTES   ###############"
+                echo
+                cat ci/release_notes.md
+                echo
+                echo "########################################"
+                echo
+              else
+                echo "NO RELEASE NOTES HAVE BEEN WRITTEN"
+                echo "You *might* want to do that before"
+                echo "hitting (+) on that shipit job..."
+                echo
+              fi
+          inputs:
+          - name: git
+      on_failure:
+        put: notify
+        params:
+          link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+          message: release candidate job 'pre' failed (which is unusual).
+          ok: false
+          topic: jumpbox-pipeline-$BUILD_JOB_NAME
+      on_success:
+        put: notify
+        params:
+          link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
+          message: release candidate job 'pre' succeeded.
+          ok: true
+          topic: jumpbox-pipeline-$BUILD_JOB_NAME
 
 resource_types:
   - name: slack-notification
