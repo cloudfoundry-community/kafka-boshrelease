@@ -503,14 +503,14 @@ jobs:
           link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
           message: release candidate job 'pre' failed (which is unusual).
           ok: false
-          topic: jumpbox-pipeline-$BUILD_JOB_NAME
+          topic: (( concat meta.name "-$BUILD_JOB_NAME" ))
       on_success:
         put: notify
         params:
           link: https://pipes.starkandwayne.com/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME
           message: release candidate job 'pre' succeeded.
           ok: true
-          topic: jumpbox-pipeline-$BUILD_JOB_NAME
+          topic: (( concat meta.name "-$BUILD_JOB_NAME" ))
 
 resource_types:
   - name: slack-notification
