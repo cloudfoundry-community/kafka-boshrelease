@@ -197,8 +197,11 @@ resource_types:
 - name: apache-directory-index
   type: docker-image
   source:
-    repository: mastertinner/apache-directory-index-resource
-    tag: latest
+    # manual build of image due to https://github.com/mastertinner/apache-directory-index-resource/issues/4
+    repository: drnic/apache-directory-index-resource
+    tag: 09dcf40f
+    # repository: mastertinner/apache-directory-index-resource
+    # tag: latest
 
 resources:
 - name: kafka
