@@ -6,7 +6,7 @@ kafka/kafka-manager-1.3.3.4.zip:
   size: 60436159
   object_id: fb58fb86-6852-4fcd-484b-e708125b5ba7
   sha: 557d05692aa93c1e9ed577e266698e59649cd96e
-kafka/kafka_2.12-2.2.1.tgz:
-  size: 57054917
-  object_id: 5323b700-df14-4d18-74ce-dd0b66c5d17a
-  sha: sha256:1b8f4f94514fd1f35dc2aba0114b56cf69afa0027184f2a2964625fc1bb46deb
+kafka/kafka_2.12-2.3.0.tgz:
+  size: 57215197
+  object_id: de3e18e7-174e-4e5d-509c-6e2c78810c0d
+  sha: sha256:d86f5121a9f0c44477ae6b6f235daecc3f04ecb7bf98596fd91f402336eee3e7
