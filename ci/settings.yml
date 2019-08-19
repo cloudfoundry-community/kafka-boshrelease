@@ -45,9 +45,8 @@ jobs:
 - name: kafka
   public: true
   plan:
-  - aggregate:
-    - { get: git }
-    - { get: kafka, trigger: true }
+  - { get: git }
+  - { get: kafka, trigger: true }
   - task: update-blob
     config:
       image_resource:
@@ -103,14 +102,15 @@ jobs:
 
 - name: use-compiled-releases
   plan:
-    - name: aggregate
-      aggregate:
-        - (( append ))
-        - get: bpm-compiled-release
-          passed: [bpm-compile-release]
-        - get: zookeeper-compiled-release
-          passed: [zookeeper-compile-release]
-    - name: use-compiled-releases
+    - name: resources
+      in_parallel:
+        steps:
+          - (( append ))
+          - get: bpm-compiled-release
+            passed: [bpm-compile-release]
+          - get: zookeeper-compiled-release
+            passed: [zookeeper-compile-release]
+    - task: use-compiled-releases
       config:
         inputs:
           - (( append ))
@@ -121,13 +121,12 @@ jobs:
   public: true
   serial: true
   plan:
-    - aggregate:
-      - get: git
-      - get: github
-        resource: bpm-release
-        trigger: true
-      - get: ubuntu-xenial-stemcell-456
-        params: {tarball: false}
+    - get: git
+    - get: github
+      resource: bpm-release
+      trigger: true
+    - get: (( concat meta.bosh.stemcell.os "-stemcell-" meta.bosh.stemcell.major ))
+      params: {tarball: false}
     - task: export-release
       config:
         platform: linux
@@ -138,7 +137,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-xenial-stemcell-456
+          - name: (( concat meta.bosh.stemcell.os "-stemcell-" meta.bosh.stemcell.major ))
             path: stemcell
           - name: github
             path: release
@@ -159,13 +158,12 @@ jobs:
   public: true
   serial: true
   plan:
-    - aggregate:
-      - get: git
-      - get: github
-        resource: zookeeper-boshrelease
-        trigger: true
-      - get: ubuntu-xenial-stemcell-456
-        params: {tarball: false}
+    - get: git
+    - get: github
+      resource: zookeeper-boshrelease
+      trigger: true
+    - get: (( concat meta.bosh.stemcell.os "-stemcell-" meta.bosh.stemcell.major ))
+      params: {tarball: false}
     - task: export-release
       config:
         platform: linux
@@ -176,7 +174,7 @@ jobs:
             tag:        (( grab meta.image.tag ))
         inputs:
           - name: git
-          - name: ubuntu-xenial-stemcell-456
+          - name: (( concat meta.bosh.stemcell.os "-stemcell-" meta.bosh.stemcell.major ))
             path: stemcell
           - name: github
             path: release
