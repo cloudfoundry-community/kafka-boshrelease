@@ -7,8 +7,7 @@ processes:
   persistent_disk: true
   env: {}
   limits:
-    memory: 1G
-    open_files: 1024
+    open_files: 131072
   hooks:
     pre_start: /var/vcap/jobs/kafka/bin/bpm-pre-start
 # example at https://github.com/cloudfoundry-incubator/bpm-release/blob/master/jobs/bpm-test-agent/templates/bpm.yml.erb
