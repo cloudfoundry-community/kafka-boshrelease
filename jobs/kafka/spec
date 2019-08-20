@@ -37,7 +37,7 @@ properties:
   listen_port:
     description: "The port to listen for client connections"
     default: 9092
-  
+
   jmx_port:
     description: "The port to listen for JMX connections, disabled by default"
     default: ''
@@ -52,6 +52,9 @@ properties:
       - name: test
         replication_factor: 1
         partitions: 1
+
+  auto.create.topics.enable:
+    description: "Controls when Kafka enables auto creation of topic on the server."
 
   delete_topic:
     description: "Switch to enable topic deletion or not"
@@ -70,7 +73,7 @@ properties:
     default: 2
 
   advertised.listener:
-    desctiption: |-
+    description: |-
       List of hostname and port of an advertised listener for each kafka broker, e.g.
       - cluster1.foo.com:9092 # for broker1
       - cluster2.foo.com:9092 # for broker2
