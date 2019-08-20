@@ -55,7 +55,6 @@ properties:
 
   auto.create.topics.enable:
     description: "Controls when Kafka enables auto creation of topic on the server."
-    default: true
 
   delete_topic:
     description: "Switch to enable topic deletion or not"
