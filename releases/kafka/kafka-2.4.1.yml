@@ -1,0 +1,46 @@
+name: kafka
+version: 2.4.1
+commit_hash: ac77d7d
+uncommitted_changes: false
+jobs:
+- name: kafka
+  version: 8111cb1e08137c2e66a93dad99646c7bacad7f188d95b45d81b29dc0fa783322
+  fingerprint: 8111cb1e08137c2e66a93dad99646c7bacad7f188d95b45d81b29dc0fa783322
+  sha1: sha256:797571124ea6c605081542c8dbebe3e926ae044db4835c1b019d4e0de14c7ce5
+  packages:
+  - openjdk-8-kafka
+  - kafka
+- name: kafka-manager
+  version: 6631e0d68d2cfcac90e73f792d74f5b45870988ffddb78dfa46aef71722188d8
+  fingerprint: 6631e0d68d2cfcac90e73f792d74f5b45870988ffddb78dfa46aef71722188d8
+  sha1: sha256:cc5c9bbf157c77ea67693e4eb3bb305e1225f891bedc44075f602a575548a755
+  packages:
+  - openjdk-8-kafka
+  - kafka-manager
+- name: sanitytest
+  version: 386a58b78cb77b18309957b6870ef4115eaaedca775968c04196c1ec37ef746f
+  fingerprint: 386a58b78cb77b18309957b6870ef4115eaaedca775968c04196c1ec37ef746f
+  sha1: sha256:970a387fa811314659f79a0b9280e3e678cccc9263d97668537b683ee8c95b85
+  packages:
+  - openjdk-8-kafka
+  - kafka
+packages:
+- name: kafka
+  version: e0351722b890c9ed22f46c7691db77a9c6cac4e9e09c591a0d4ecdabc526b65d
+  fingerprint: e0351722b890c9ed22f46c7691db77a9c6cac4e9e09c591a0d4ecdabc526b65d
+  sha1: sha256:75cd83ac2d0491385a455ce230fba514bad0fc2bf2a9161a0daae041cfb11fbc
+  dependencies: []
+- name: kafka-manager
+  version: f325dc1536611411c9c99569b817f13780c4276e5a820e13000f68bacb687fb9
+  fingerprint: f325dc1536611411c9c99569b817f13780c4276e5a820e13000f68bacb687fb9
+  sha1: sha256:214ccff1e3b319da1b4723fc9ce26cbba4f04bc3e86219ef77fb88b74bc4c423
+  dependencies: []
+- name: openjdk-8-kafka
+  version: 832137103f561c4bc6cefce9d63ab05da121cdde70623426f3075757ce6d49f7
+  fingerprint: 832137103f561c4bc6cefce9d63ab05da121cdde70623426f3075757ce6d49f7
+  sha1: sha256:b19b6b7f067bf30771dfe68b29a9dd03014bd6f995de0beb8ecbe0d9e919dee9
+  dependencies: []
+license:
+  version: b3880e70c9ea0c7b10a9fd6cbb651d74e5c88076396e8532215a933d51a7fa1a
+  fingerprint: b3880e70c9ea0c7b10a9fd6cbb651d74e5c88076396e8532215a933d51a7fa1a
+  sha1: sha256:956555be3679048d5f963d69e3eb43e6e71e0cf557044138810be7f1723e46d9
