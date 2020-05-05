@@ -2,5 +2,5 @@
 blobstore:
   provider: s3
   options:
-    bucket_name: kafka-boshrelease
+    bucket_name: smarsh-bosh-release-blobs
 final_name: kafka
