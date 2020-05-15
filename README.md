@@ -1,4 +1,3 @@
-# Concourse test PR + Merge
 # BOSH release for kafka
 
 This BOSH release and deployment manifest deploy a cluster of kafka.
