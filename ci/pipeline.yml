@@ -20,13 +20,13 @@ resources:
     icon: github-circle
     source:
       uri: https://github.com/Smarsh/cf-kafka-boshrelease
-      branch: pipeline
+      branch: master
   
-#  - name: kafka-final-release
-#    type: s3
-#    source:
-#      << : *smarsh_releases_bucket
-#      regexp: release_tarball/kafka-(.*).tgz
+  - name: kafka-final-release
+    type: s3
+    source:
+      << : *smarsh_releases_bucket
+      regexp: release_tarball/kafka-(.*).tgz
 
 jobs:
   - name: cut-release
@@ -41,6 +41,6 @@ jobs:
           << : *blobstore_credentials
           << : *bosh-creds
 
-#      - put: kafka-final-release
-#        params:
-#          file: release_tarball/kafka-*.tgz
+      - put: kafka-final-release
+        params:
+          file: release_tarball/kafka-*.tgz
