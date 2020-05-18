@@ -1,0 +1,18 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: bosh/cli2
+    tag: latest
+inputs:
+- name: kafka-repo
+outputs:
+- name: release_tarball
+
+run:
+  path: kafka-repo/ci/tasks/create_final_release.sh
+
+params:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:
