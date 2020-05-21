@@ -1,0 +1,9 @@
+platform: linux
+inputs:
+- name: pull-request
+- name: version
+outputs:
+- name: create-dev-release
+run:
+  path: ci/tasks/create-dev-release.sh
+  dir: pull-request
