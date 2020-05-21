@@ -1,0 +1,46 @@
+---
+anchors:
+  smarsh_releases_bucket: &smarsh_releases_bucket
+    bucket: smarsh-bosh-releases
+    access_key_id: ((aws-access-key-id))
+    secret_access_key: ((aws-secret-access-key))
+  blobstore_credentials: &blobstore_credentials
+    AWS_ACCESS_KEY_ID: ((aws-access-key-id))
+    AWS_SECRET_ACCESS_KEY: ((aws-secret-access-key))
+  bosh-creds: &bosh-creds
+    jumpbox_key: |
+      ((jumpbox-key.private_key))
+    ca_cert: |
+      ((ca-cert.certificate))
+    BOSH_ENVIRONMENT: ((bosh-environment))
+
+resources:
+  - name: kafka-repo
+    type: git
+    icon: github-circle
+    source:
+      uri: https://github.com/Smarsh/cf-kafka-boshrelease
+      branch: master
+  
+  - name: kafka-final-release
+    type: s3
+    source:
+      << : *smarsh_releases_bucket
+      regexp: release_tarball/kafka-(.*).tgz
+
+jobs:
+  - name: cut-release
+    public: true
+    plan:
+      - get: kafka-repo
+        trigger: true
+
+      - task: create_final_release
+        file: kafka-repo/ci/tasks/create_final_release.yml
+        params: 
+          << : *blobstore_credentials
+          << : *bosh-creds
+
+      - put: kafka-final-release
+        params:
+          file: release_tarball/kafka-*.tgz
