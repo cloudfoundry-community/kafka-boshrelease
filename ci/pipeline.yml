@@ -8,26 +8,18 @@ anchors:
     AWS_ACCESS_KEY_ID: ((aws-access-key-id))
     AWS_SECRET_ACCESS_KEY: ((aws-secret-access-key))
   bosh-creds: &bosh-creds
-    jumpbox_key: |
-      ((jumpbox-key))
-    ca_cert: |
-      ((ca-cert))
+    jumpbox_key: ((jumpbox-key))
+    ca_cert: ((ca-cert))
     BOSH_ENVIRONMENT: ((bosh-environment))
-   
+      
 resources:
-  - name: bosh-cli2
+  - name: boshcli2
     type: registry-image
     source:
-      repository: acuzoka/bosh-cli2
+      repository: afamuzoka/boshcli2
       username: ((docker.username))
       password: ((docker.password))
       tag: latest
-  
-  - name: s3-dev-release
-    type: s3
-    source:
-      << : *smarsh_releases_bucket
-      regexp: sredataservices/dev-releases/kafka-(.*).tgz
 
   - name: version
     type: semver
@@ -35,7 +27,7 @@ resources:
       driver: s3
       << : *smarsh_releases_bucket
       region: eu-west-2
-      file: sredataservices/version
+      key: sredataservices/kafka/version
       initial_version: 2.4.2
 
   - name: kafka-repo
@@ -43,58 +35,48 @@ resources:
     icon: github-circle
     source:
       uri: https://github.com/Smarsh/cf-kafka-boshrelease
-      branch: master
+      branch: SAAS-281
   
   - name: kafka-final-release
     type: s3
     source:
       << : *smarsh_releases_bucket
-      regexp: sredataservices/releases/kafka-(.*).tgz
+      regexp: sredataservices/release/kafka-(.*).tgz
+
 
 jobs:
-  - name: create-dev-release
-    public: true
-    serial: true
-    plan:
-      - get: kafka-repo
-        version: every
-        trigger: true
-      - get: version
-        trigger: false
-        params:
-          pre: rc
-      - put: version
-      # - put: version
-      #   params:
-      #     bump: patch
-      - get: bosh-cli2
-      - task: create-dev-release
-        file:  kafka-repo/ci/tasks/create-dev-release.yml 
-        image: bosh-cli2
-        # on_failure:
-          # put: pull-request
-          # params:
-          #   path: pull-request
-          #   status: failure
-      
-      - put: s3-dev-release
-        params:
-          file: create-dev-release/kafka-*.tgz
 
   - name: cut-release
     public: true
+    serial: true
     plan:
-      - get: kafka-repo
-        trigger: true
+      - in_parallel:
+        - get: kafka-repo
+          trigger: true
+          version: latest
+        - get: boshcli2
       - get: version
+        trigger: false
         params:
-          bump: patch   
-      - task: create_final_release
-        file: kafka-repo/ci/tasks/create_final_release.yml
+          bump: patch
+      - task: add-blobs
+        file: kafka-repo/ci/tasks/add-blobs.yml
+        image: boshcli2
+        params: 
+          << : *blobstore_credentials
+          << : *bosh-creds
+          BLOBSTORE: smarsh-bosh-release-blobs
+      - task: create-final-release
+        file: kafka-repo/ci/tasks/create-final-release.yml
+        image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
           BLOBSTORE: smarsh-bosh-release-blobs
       - put: kafka-final-release
         params:
-          file: release_tarball/kafka-*.tgz
+          file: release-tarball/kafka-*.tgz
+      - put: version
+        params: {file: version/number}
+       
+      
