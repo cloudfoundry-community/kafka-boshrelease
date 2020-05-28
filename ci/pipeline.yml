@@ -34,8 +34,8 @@ resources:
     type: git
     icon: github-circle
     source:
-      uri: ((url))
-      branch: SAAS-281
+      uri: ((git.url))
+      branch: ((git.branch))
   
   - name: s3-final-release
     type: s3
