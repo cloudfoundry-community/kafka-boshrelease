@@ -74,6 +74,8 @@ main() {
   fi
 
 
+  # Are we running inside a concourse pipeline
+  # i wonder if theres something else i can use
   if [[ -f  ${BOSH_RELEASE_VERSION_FILE} ]] ; then
     BOSH_RELEASE_VERSION=$(cat ${BOSH_RELEASE_VERSION_FILE})
     RUN_PIPELINE=1
@@ -81,16 +83,7 @@ main() {
     BOSH_RELEASE_VERSION='SNAPSHOT'
   fi
 
-
   [[ ! -d ${SOURCE_DL_DIR} ]] && mkdir ${SOURCE_DL_DIR}
-
-  if [[  ${RUN_PIPELINE} -eq 1 ]] ; then 
-    tarBallPath=${SOURCE_DL_DIR}/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
-  else
-
-    tarBallPath=/tmp/bosh-release-$$/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
-  fi
-
   
   for key in "${!downloads[@]}" 
   do
@@ -122,11 +115,10 @@ main() {
     # which uses bosh version 6.2.1 bosh create-release --force fails
     # that requires this hidden directory to be renamed/removed
     [[ -f  ${BOSH_RELEASE_VERSION_FILE} ]] && rm -fr .final_builds
-    
+    tarBallPath=${OUTPUT_DIR}/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
     bosh create-release --force --name ${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
     
     BRANCH=$(git name-rev --name-only $(git rev-list  HEAD --date-order --max-count 1))
-
     
     cat << EOF > config/final.yml
 ---
