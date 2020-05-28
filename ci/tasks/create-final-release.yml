@@ -1,16 +1,16 @@
 ---
 platform: linux
 inputs:
-- name: kafka-repo
-- name: kafka-prerelease-repo
+- name: git-repo
+- name: git-prerelease-repo
 - name: add-blobs
 - name: version
 outputs:
 - name: release-tarball
-- name: kafka-repo-release
+- name: git-release-repo
 
 run:
-  path: kafka-repo/ci/tasks/create-final-release.sh
+  path: git-repo/ci/tasks/create-final-release.sh
 
 params:
   AWS_ACCESS_KEY_ID:

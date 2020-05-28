@@ -11,7 +11,7 @@ anchors:
     jumpbox_key: ((jumpbox-key))
     ca_cert: ((ca-cert))
     BOSH_ENVIRONMENT: ((bosh-environment))
-      
+
 resources:
   - name: boshcli2
     type: registry-image
@@ -27,21 +27,21 @@ resources:
       driver: s3
       << : *smarsh_releases_bucket
       region: eu-west-2
-      key: sredataservices/kafka/version
-      initial_version: 2.4.2
+      key: sredataservices/((bosh-release-name))/version
+      initial_version: ((initial_version))
 
-  - name: kafka-repo
+  - name: git-repo
     type: git
     icon: github-circle
     source:
-      uri: https://github.com/Smarsh/cf-kafka-boshrelease
+      uri: ((url))
       branch: SAAS-281
   
-  - name: kafka-final-release
+  - name: s3-final-release
     type: s3
     source:
       << : *smarsh_releases_bucket
-      regexp: sredataservices/release/kafka-(.*).tgz
+      regexp: sredataservices/release/((bosh-release-name))-(.*).tgz
 
 
 jobs:
@@ -51,7 +51,7 @@ jobs:
     serial: true
     plan:
       - in_parallel:
-        - get: kafka-repo
+        - get: git-repo
           trigger: true
           version: latest
         - get: boshcli2
@@ -60,22 +60,22 @@ jobs:
         params:
           bump: patch
       - task: add-blobs
-        file: kafka-repo/ci/tasks/add-blobs.yml
+        file: git-repo/ci/tasks/add-blobs.yml
         image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
           BLOBSTORE: smarsh-bosh-release-blobs
       - task: create-final-release
-        file: kafka-repo/ci/tasks/create-final-release.yml
+        file: git-repo/ci/tasks/create-final-release.yml
         image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
           BLOBSTORE: smarsh-bosh-release-blobs
-      - put: kafka-final-release
+      - put: s3-final-release
         params:
-          file: release-tarball/kafka-*.tgz
+          file: release-tarball/((bosh-release-name))-*.tgz
       - put: version
         params: {file: version/number}
        
