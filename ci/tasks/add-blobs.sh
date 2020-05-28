@@ -87,7 +87,8 @@ main() {
   if [[  ${RUN_PIPELINE} -eq 1 ]] ; then 
     tarBallPath=${SOURCE_DL_DIR}/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
   else
-    tarBallPath=../${OUTPUT_DIR}/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
+
+    tarBallPath=/tmp/bosh-release-$$/${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
   fi
 
   
@@ -112,18 +113,18 @@ main() {
 
   done
 
-  loginfo "Create release version ${BOSH_RELEASE_VERSION}"
-  
-  # fix - removing .final_builds folder is not necessary when running locally however when running in a pipeline 
-  # which uses bosh version 6.2.1 bosh create-release --force fails
-  # that requires this hidden directory to be renamed/removed
-  [[ -f  ${BOSH_RELEASE_VERSION_FILE} ]] && rm -fr .final_builds
-  
-  bosh create-release --force --name ${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
-  
 
   if [[ ${RUN_PIPELINE} -eq 1 ]] ; then
 
+    loginfo "Create release version ${BOSH_RELEASE_VERSION}"
+    
+    # fix - removing .final_builds folder is not necessary when running locally however when running in a pipeline 
+    # which uses bosh version 6.2.1 bosh create-release --force fails
+    # that requires this hidden directory to be renamed/removed
+    [[ -f  ${BOSH_RELEASE_VERSION_FILE} ]] && rm -fr .final_builds
+    
+    bosh create-release --force --name ${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
+    
     BRANCH=$(git name-rev --name-only $(git rev-list  HEAD --date-order --max-count 1))
 
     
