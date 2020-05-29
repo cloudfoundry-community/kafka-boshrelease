@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eux
 
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Starting kafka release pipeline..."}' https://hooks.slack.com/services/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
+
 # Download dependencies - Working on a docker container already containing these will remove later
 apt update > /dev/null
 apt-get install git -y -f > /dev/null
@@ -23,6 +25,7 @@ export GITHUB_DIR=`echo $GITHUB_REPO | cut -d / -f 5`
 cd $GITHUB_DIR
 
 echo "Cutting a final release"
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Cutting a final kafka release!"}' https://hooks.slack.com/services/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
 echo "==="
 echo "==="
 
@@ -43,3 +46,5 @@ EOF
 
 ## Now that we've downloaded everything needed from the read only bucket, edited the final.yml and created a private.yml our release can be made.
 bosh create-release --final --force --version=2.4.1-1 --tarball "../release_tarball/kafka-2.4.1-1.tgz"
+
+curl -X POST -H 'Content-type: application/json' --data '{"text":"Final release cut and in S3 :party_parrot:!"}' https://hooks.slack.com/services/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
