@@ -1,6 +1,8 @@
 #!/bin/bash
 set -eux
 
+apt-get install curl -y -f > /dev/null
+
 curl -X POST -H 'Content-type: application/json' --data '{"text":"Starting kafka release pipeline..."}' https://hooks.slack.com/services/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
 
 # Download dependencies - Working on a docker container already containing these will remove later
