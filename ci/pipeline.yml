@@ -41,6 +41,6 @@ jobs:
           << : *blobstore_credentials
           << : *bosh-creds
 
-      - put: kafka-final-release
-        params:
-          file: release_tarball/kafka-*.tgz
+#      - put: kafka-final-release
+#        params:
+#          file: release_tarball/kafka-*.tgz
