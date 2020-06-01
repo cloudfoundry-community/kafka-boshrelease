@@ -54,6 +54,8 @@ jobs:
         - get: git-repo
           trigger: true
           version: latest
+        - get: git-golang
+          trigger: false
         - get: boshcli2
       - get: version
         trigger: false
@@ -66,6 +68,7 @@ jobs:
           << : *blobstore_credentials
           << : *bosh-creds
           BLOBSTORE: smarsh-bosh-release-blobs
+        input_mapping: {golang-release: git-golang}
       - task: create-final-release
         file: git-repo/ci/tasks/create-final-release.yml
         image: boshcli2
@@ -76,7 +79,14 @@ jobs:
       - put: s3-final-release
         params:
           file: release-tarball/((bosh-release-name))-*.tgz
-      - put: version
-        params: {file: version/number}
+      # - put: git-repo
+      #   params:
+      #     rebase: true
+      #     repository: finalized-release
+      #     tag: version/tag-name
+      #     annotate: version/annotate-msg 
+      # - put: version
+      #   params: {file: version/number}
+      
        
       
