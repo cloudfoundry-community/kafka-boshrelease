@@ -8,7 +8,7 @@ fi
 
 SHELL=/bin/bash
 ROOT_DIR=$(pwd)
-OUTPUT_DIR=add-blob-release
+OUTPUT_DIR=../add-blob-release
 SOURCE_DL_DIR=.downloads
 BOSH_RELEASE_VERSION_FILE=../version/number
 SOURCE_VERSION_FILE="$(pwd)/ci/VERSIONS"
