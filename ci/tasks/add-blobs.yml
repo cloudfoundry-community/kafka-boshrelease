@@ -1,0 +1,11 @@
+---
+platform: linux
+inputs:
+- name: git-repo
+- name: version
+outputs:
+- name: add-blob-release
+- name: git-prerelease-repo
+run:
+  path: ci/tasks/add-blobs.sh
+  dir: git-repo

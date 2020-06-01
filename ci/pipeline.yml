@@ -8,39 +8,85 @@ anchors:
     AWS_ACCESS_KEY_ID: ((aws-access-key-id))
     AWS_SECRET_ACCESS_KEY: ((aws-secret-access-key))
   bosh-creds: &bosh-creds
-    jumpbox_key: |
-      ((jumpbox-key.private_key))
-    ca_cert: |
-      ((ca-cert.certificate))
+    jumpbox_key: ((jumpbox-key))
+    ca_cert: ((ca-cert))
     BOSH_ENVIRONMENT: ((bosh-environment))
 
 resources:
-  - name: kafka-repo
+  - name: boshcli2
+    type: registry-image
+    source:
+      repository: afamuzoka/boshcli2
+      username: ((docker.username))
+      password: ((docker.password))
+      tag: latest
+
+  - name: version
+    type: semver
+    source:
+      driver: s3
+      << : *smarsh_releases_bucket
+      region: eu-west-2
+      key: sredataservices/((bosh-release-name))/version
+      initial_version: ((initial_version))
+
+  - name: git-repo
     type: git
     icon: github-circle
     source:
-      uri: https://github.com/Smarsh/cf-kafka-boshrelease
-      branch: master
+      uri: ((git.url))
+      branch: ((git.branch))
   
-  - name: kafka-final-release
+  - name: s3-final-release
     type: s3
     source:
       << : *smarsh_releases_bucket
-      regexp: release_tarball/kafka-(.*).tgz
+      regexp: sredataservices/release/((bosh-release-name))-(.*).tgz
+
 
 jobs:
+
   - name: cut-release
     public: true
+    serial: true
     plan:
-      - get: kafka-repo
-        trigger: true
-
-      - task: create_final_release
-        file: kafka-repo/ci/tasks/create_final_release.yml
+      - in_parallel:
+        - get: git-repo
+          trigger: true
+          version: latest
+        - get: git-golang
+          trigger: false
+        - get: boshcli2
+      - get: version
+        trigger: false
+        params:
+          bump: patch
+      - task: add-blobs
+        file: git-repo/ci/tasks/add-blobs.yml
+        image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
-
-      - put: kafka-final-release
+          BLOBSTORE: smarsh-bosh-release-blobs
+        input_mapping: {golang-release: git-golang}
+      - task: create-final-release
+        file: git-repo/ci/tasks/create-final-release.yml
+        image: boshcli2
+        params: 
+          << : *blobstore_credentials
+          << : *bosh-creds
+          BLOBSTORE: smarsh-bosh-release-blobs
+      - put: s3-final-release
         params:
-          file: release_tarball/kafka-*.tgz
+          file: release-tarball/((bosh-release-name))-*.tgz
+      # - put: git-repo
+      #   params:
+      #     rebase: true
+      #     repository: finalized-release
+      #     tag: version/tag-name
+      #     annotate: version/annotate-msg 
+      # - put: version
+      #   params: {file: version/number}
+      
+       
+      
