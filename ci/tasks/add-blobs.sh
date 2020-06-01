@@ -8,7 +8,7 @@ fi
 
 SHELL=/bin/bash
 ROOT_DIR=$(pwd)
-OUTPUT_DIR=add-blobs
+OUTPUT_DIR=add-blob-release
 SOURCE_DL_DIR=.downloads
 BOSH_RELEASE_VERSION_FILE=../version/number
 SOURCE_VERSION_FILE="$(pwd)/ci/VERSIONS"
@@ -84,7 +84,7 @@ main() {
   fi
 
   BOSH_RELEASE_FILE=${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
-  
+
   [[ ! -d ${SOURCE_DL_DIR} ]] && mkdir ${SOURCE_DL_DIR}
   
   for key in "${!downloads[@]}" 
