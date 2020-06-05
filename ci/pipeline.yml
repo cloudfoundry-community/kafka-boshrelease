@@ -36,13 +36,13 @@ resources:
     source:
       uri: ((git.url))
       branch: ((git.branch))
-  
+      private_key: ((git-private-key.private_key))  
+
   - name: s3-final-release
     type: s3
     source:
       << : *smarsh_releases_bucket
       regexp: sredataservices/release/((bosh-release-name))-(.*).tgz
-
 
 jobs:
 
