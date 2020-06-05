@@ -32,6 +32,9 @@ loginfo() {
   echo
 }
 
+echo "v${BOSH_RELEASE_VERSION}" > ${ROOT_DIR}/version/tag-number
+echo "Final release ${BOSH_RELEASE_VERSION} tagged via concourse" > ${ROOT_DIR}/version/annotate-msg
+
 loginfo "Configuring files, keys, certs and directories"
 
 set +x
@@ -76,8 +79,6 @@ blobstore:
 EOF
 
   git update-index --assume-unchanged config/final.yml
-
-  # [[ -d .final_builds ]]  && rm -fr .final_builds
 
   git status
 
