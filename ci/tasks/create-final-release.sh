@@ -77,12 +77,10 @@ EOF
 
   git update-index --assume-unchanged config/final.yml
 
-  # [[ -d .final_builds ]]  && rm -fr .final_builds
-
   git status
 
   loginfo "Create final release"
-  bosh finalize-release --name=${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} ../add-blob-release/${BOSH_RELEASE_FILE}
+  bosh finalize-release --version=${BOSH_RELEASE_VERSION} --name=${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} ../add-blob-release/${BOSH_RELEASE_FILE}
 
   git status
 
@@ -91,4 +89,8 @@ EOF
 
   loginfo "Create release final release tarball"
   bosh create-release --tarball=../release-tarball/${BOSH_RELEASE_FILE} --final
+
+  echo "v${BOSH_RELEASE_VERSION}" > ${ROOT_DIR}/version/tag-number
+  echo "Final release ${BOSH_RELEASE_VERSION} tagged via concourse" > ${ROOT_DIR}/version/annotate-msg
+
 popd
