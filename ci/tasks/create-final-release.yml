@@ -2,12 +2,13 @@
 platform: linux
 inputs:
 - name: git-repo
-- name: git-prerelease-repo
-- name: add-blob-release
 - name: version
+- name: add-blob-release
+- name: s3-git-prerelease-repo
 outputs:
 - name: release-tarball
 - name: git-release-repo
+- name: version-tag
 
 run:
   path: git-repo/ci/tasks/create-final-release.sh
