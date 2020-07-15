@@ -9,7 +9,7 @@ APP_RELEASE_NAME="${BOSH_RELEASE_NAME}_${KAFKA_VERSION}"
 
 pushd ${DIRPATH}
   fly -t ${CONCOURSE_TARGET:-prodSmarsh} sp \
-    -p ds-kafka-bosh-release \ 
+    -p ds-kafka-bosh-release \
     -c pipeline.yml \
     -l settings.yml \
     -v bosh-release-name="${BOSH_RELEASE_NAME}" \
