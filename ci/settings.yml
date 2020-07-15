@@ -1,0 +1,7 @@
+---
+git:
+  url: git@github.com:Smarsh/cf-kafka-boshrelease.git
+  branch: kafka-2.4.1
+initial_version: 0.1.0
+
+

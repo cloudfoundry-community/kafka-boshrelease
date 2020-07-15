@@ -11,14 +11,15 @@ anchors:
     jumpbox_key: ((jumpbox-key))
     ca_cert: ((ca-cert))
     BOSH_ENVIRONMENT: ((bosh-environment))
+  pipeline-vars: &pipeline-vars
+    APP_RELEASE_NAME: ((app-release-name))
+    BLOBSTORE: smarsh-bosh-release-blobs
 
 resources:
   - name: boshcli2
     type: registry-image
     source:
-      repository: afamuzoka/boshcli2
-      username: ((docker.username))
-      password: ((docker.password))
+      repository: smarshsre/data-services-boshcli2
       tag: latest
 
   - name: version
@@ -27,7 +28,7 @@ resources:
       driver: s3
       << : *smarsh_releases_bucket
       region: eu-west-2
-      key: sredataservices/((bosh-release-name))/version
+      key: dataservices/((app-release-name))/version
       initial_version: ((initial_version))
 
   - name: git-repo
@@ -36,54 +37,113 @@ resources:
     source:
       uri: ((git.url))
       branch: ((git.branch))
-      private_key: ((git-private-key.private_key))  
+      private_key: ((git-private-key.private_key))
+  
+  - name: s3-git-prerelease-repo
+    type: s3
+    source:
+      << : *smarsh_releases_bucket
+      regexp: dataservices/cache/git-((app-release-name))-prerelease-(.*).tgz
+ 
+  - name: s3-rc-release
+    type: s3
+    source:
+      << : *smarsh_releases_bucket
+      regexp: dataservices/rc-release/((app-release-name))-(.*).tgz
 
   - name: s3-final-release
     type: s3
     source:
       << : *smarsh_releases_bucket
-      regexp: dataservices/kafka/kafka_2.4.0/((bosh-release-name))-(.*).tgz
+      regexp: dataservices/((bosh-release-name))/((app-release-name))-(.*).tgz
 
 jobs:
 
-  - name: cut-release
+  - name: release-candidate
     public: true
-    serial: true
     plan:
       - in_parallel:
         - get: git-repo
           trigger: true
           version: latest
+        - get: version
+          params:
+            pre: rc
+            bump: patch
+      - put: version
+        params:
+          file: version/number 
+
+  - name: dev-release
+    public: true
+    serial: true
+    plan:
+      - in_parallel:
+        - get: git-repo
+          params:
+            submodules: all
+          trigger: true
+          passed: 
+            - release-candidate
         - get: boshcli2
       - get: version
-        trigger: false
-        params:
-          bump: patch
+        passed: 
+          - release-candidate
       - task: add-blobs
         file: git-repo/ci/tasks/add-blobs.yml
         image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
-          BLOBSTORE: smarsh-bosh-release-blobs
+          << : *pipeline-vars
+      - put: s3-git-prerelease-repo
+        params:
+          file: git-prerelease-repo/git-((app-release-name))-prerelease-*.tgz
+      - put: s3-rc-release
+        params:
+          file: rc-release/((app-release-name))-*.tgz
+      
+  - name: cut-release
+    public: true
+    serial: true
+    plan:
+      - in_parallel:
+        - get: git-repo
+          params:
+            submodules: all
+          trigger: true
+          version: latest
+          passed: 
+            - dev-release
+        - get: boshcli2
+        - get: s3-git-prerelease-repo
+        - get: s3-rc-release
+          passed:
+            - dev-release
+      - get: version
+        params:
+          bump: final
+        passed: 
+          - dev-release
       - task: create-final-release
         file: git-repo/ci/tasks/create-final-release.yml
         image: boshcli2
         params: 
           << : *blobstore_credentials
           << : *bosh-creds
-          BLOBSTORE: smarsh-bosh-release-blobs
-      - put: s3-final-release
-        params:
-          file: release-tarball/((bosh-release-name))-*.tgz
+          << : *pipeline-vars
+        input_mapping:
+          add-blob-release: s3-rc-release
       - put: git-repo
         params:
           rebase: true
           repository: git-repo
-          tag: version/tag-number
-          annotate: version/annotate-msg
           only_tag: true
+          tag_prefix: v
+          tag: version-tag/tag-name
+          annotate: version-tag/annotate-msg 
+      - put: s3-final-release
+        params:
+          file: release-tarball/((app-release-name))-*.tgz
       - put: version
         params: {file: version/number}
-      
-       

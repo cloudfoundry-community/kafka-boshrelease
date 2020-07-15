@@ -8,11 +8,12 @@ fi
 
 SHELL=/bin/bash
 ROOT_DIR=$(pwd)
-OUTPUT_DIR=../add-blob-release
+OUTPUT_DIR=../rc-release
 SOURCE_DL_DIR=.downloads
 BOSH_RELEASE_VERSION_FILE=../version/number
 SOURCE_VERSION_FILE="$(pwd)/ci/VERSIONS"
-RELEASE_NAME=$(bosh int config/final.yml --path /final_name)
+BOSH_RELEASE_NAME=$(bosh int config/final.yml --path /name)
+APP_RELEASE_NAME="${APP_RELEASE_NAME:-${BOSH_RELEASE_NAME}}"
 PRERELEASE_REPO=../git-prerelease-repo
 RUN_PIPELINE=0 # if script is running locally then 0 if in consourse pipeline then 1
 
@@ -83,10 +84,11 @@ main() {
     BOSH_RELEASE_VERSION='SNAPSHOT'
   fi
 
-  BOSH_RELEASE_FILE=${RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
+  BOSH_RELEASE_FILE=${APP_RELEASE_NAME}-${BOSH_RELEASE_VERSION}.tgz
 
   [[ ! -d ${SOURCE_DL_DIR} ]] && mkdir ${SOURCE_DL_DIR}
   
+
   for key in "${!downloads[@]}" 
   do
     local file=${SOURCE_DL_DIR}/$(basename ${key})
@@ -110,9 +112,9 @@ main() {
 
   rm -fr ${SOURCE_DL_DIR}
 
-
+  
   if [[ ${RUN_PIPELINE} -eq 1 ]] ; then
-
+    
     loginfo "Create release version ${BOSH_RELEASE_VERSION}"
     
     # fix - removing .final_builds folder is not necessary when running locally however when running in a pipeline 
@@ -121,24 +123,18 @@ main() {
     rm -fr .final_builds
     
     BRANCH=$(git name-rev --name-only $(git rev-list  HEAD --date-order --max-count 1))
-
-    git status
     
+    git status
+
     git checkout ${BRANCH}
 
-    tarBallPath=${OUTPUT_DIR}/${BOSH_RELEASE_FILE}
-
-    loginfo "Create release version ${BOSH_RELEASE_VERSION}"
-    bosh create-release --force --name ${RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
-    
-    
     cat << EOF > config/final.yml
 ---
 blobstore:
   provider: s3
   options:
     bucket_name: ${BLOBSTORE}
-final_name: ${RELEASE_NAME}
+name: ${BOSH_RELEASE_NAME}
 EOF
 
 ## Create private.yml for BOSH to use our AWS keys
@@ -149,10 +145,28 @@ blobstore:
   options:
     credentials_source: env_or_profile
 EOF
+   
+    if [[ -n $(ls -1 ./vendors 2>/dev/null) ]]; then
+      for key in ${!vendorPackages[@]}
+      do
+        local package=${key}
+        local vendorSrcDir="./vendors/${vendorPackages[${key}]}"
 
-  loginfo "Upload blobs ${BOSH_RELEASE_VERSION}"
-  bosh blobs
-  bosh -n upload-blobs
+        loginfo "Vendor release package ${package}"
+        bosh vendor-package ${package} ${vendorSrcDir}
+      done
+    fi
+  
+    tarBallPath=${OUTPUT_DIR}/${BOSH_RELEASE_FILE}
+    
+    loginfo "Create release version ${BOSH_RELEASE_VERSION}"
+    bosh create-release --force --name ${BOSH_RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
+    
+
+    loginfo "BOSH release information for version ${BOSH_RELEASE_VERSION}"
+    bosh blobs
+    loginfo "Upload BOSH release ${BOSH_RELEASE_VERSION}"
+    bosh -n upload-blobs
   
     if [[ -n "$(git status --porcelain)" ]]; then
 
@@ -164,12 +178,15 @@ EOF
       git add -A
       git status
       git commit -m "Adding blob, ${BOSH_RELEASE_FILE} to ${BLOBSTORE} via concourse"
+      
       [[ -d ${PRERELEASE_REPO} ]] && mkdir -p ${PRERELEASE_REPO}
-      cp -r . ${PRERELEASE_REPO}
+      loginfo "Upload cache"
+      tar zcf ${PRERELEASE_REPO}/git-${APP_RELEASE_NAME}-prerelease-${BOSH_RELEASE_VERSION}.tgz .
     fi
   fi
-
+  loginfo "Success"
 }
 
 bosh reset-release
 main
+exit 0
