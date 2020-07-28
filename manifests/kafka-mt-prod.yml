@@ -1,0 +1,121 @@
+---
+name: kafka
+
+addons:
+- name: bpm
+  jobs:
+  - name: bpm
+    release: bpm
+
+instance_groups:
+- name: zookeeper
+  azs: [z1, z2, z3]
+  instances: 3
+  jobs:
+  - name: zookeeper
+    release: zookeeper
+    properties: {}
+  - name: status
+    release: zookeeper
+    properties: {}
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
+  stemcell: default
+  persistent_disk: 10240
+  networks:
+  - name: default
+- name: kafka
+  azs: [z1, z2, z3]
+  instances: 1
+  vm_resources:
+    cpu: 2
+    ram: 2048
+    ephemeral_disk_size: 10240
+  stemcell: default
+  persistent_disk: 10240
+  networks: [{name: default}]
+  jobs:
+  - name: kafka
+    release: kafka
+    properties:
+      offsets:
+        topic:
+          replication:
+            factor: 1
+      transaction:
+        state:
+          log:
+            replication:
+              factor: 1
+            min:
+              isr: 1
+- name: kafka-manager
+  azs: [z1, z2, z3]
+  instances: 1
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
+  stemcell: default
+  persistent_disk: 10240
+  networks: [{name: default}]
+  jobs:
+  - name: kafka-manager
+    release: kafka
+    properties:
+      username: admin
+      password: ((kafka-manager-password))
+- name: sanity-test
+  azs: [z1, z2, z3]
+  instances: 1
+  lifecycle: errand
+  vm_resources:
+    cpu: 1
+    ram: 1024
+    ephemeral_disk_size: 10240
+  stemcell: default
+  networks: [{name: default}]
+  jobs:
+  - name: sanitytest
+    release: kafka
+
+variables:
+- name: kafka-manager-password
+  type: password
+
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: 456.latest
+
+update:
+  canaries: 1
+  canary_watch_time: 1000-60000
+  update_watch_time: 1000-60000
+  max_in_flight: 1
+  serial: true
+
+releases:
+- name: bpm
+  sha1: 63a0581216ccc153a38824289f0bd767605401e6
+  stemcell:
+    os: ubuntu-xenial
+    version: "456.40"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/bpm/bpm-1.0.4-ubuntu-xenial-456.3-20190807-231000-929480708-20190807231006.tgz
+  version: 1.0.4
+- name: zookeeper
+  sha1: 37abc951e6a3cacb4607186a42d33101ebd96500
+  stemcell:
+    os: ubuntu-xenial
+    version: "456.40"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/zookeeper/zookeeper-0.0.10-ubuntu-xenial-456.3-20190807-230924-288267589-20190807230933.tgz
+  version: 0.0.10
+- name: kafka
+  sha1: 24ff918b586364621c95cdfa2b7bd78d53410ea6
+  stemcell:
+    os: ubuntu-xenial
+    version: "456.40"
+  url: https://s3.amazonaws.com/kafka-boshrelease/compiled-releases/kafka/kafka-2.4.2-ubuntu-xenial-456.40-20191025-024141-293474222-20191025024150.tgz
+  version: 2.4.2
