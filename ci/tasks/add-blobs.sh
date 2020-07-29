@@ -160,7 +160,7 @@ EOF
     tarBallPath=${OUTPUT_DIR}/${BOSH_RELEASE_FILE}
     
     loginfo "Create release version ${BOSH_RELEASE_VERSION}"
-    bosh create-release --force --name ${BOSH_RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
+    bosh create-release --force --name ${APP_RELEASE_NAME} --version=${BOSH_RELEASE_VERSION} --timestamp-version --tarball=${tarBallPath}
     
 
     loginfo "BOSH release information for version ${BOSH_RELEASE_VERSION}"
