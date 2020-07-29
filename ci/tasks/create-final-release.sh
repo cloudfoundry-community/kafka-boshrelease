@@ -94,7 +94,7 @@ EOF
   [[ -n "$(git status --porcelain)" ]] && git commit -am "Final release stage change, ${BOSH_RELEASE_VERSION} via concourse"
 
   loginfo "Create release final release tarball"
-  bosh create-release --tarball=../release-tarball/${BOSH_RELEASE_FILE} --version=${BOSH_RELEASE_VERSION} --name=${BOSH_RELEASE_NAME} --final
+  bosh create-release --tarball=../release-tarball/${BOSH_RELEASE_FILE} --version=${BOSH_RELEASE_VERSION} --name=${APP_RELEASE_NAME} --final
 popd
 loginfo "Success"
 exit 0
