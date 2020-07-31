@@ -2,6 +2,6 @@
 # 1. downloads the vendor packages using the value part of the associative array
 # 2. creates a new config/blobs.yml file using the key part of the associative array
 declare -A downloads
-downloads[kafka/kafka_2.12-${KAFKA_VERSION}.zip]="https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_2.12-${KAFKA_VERSION}.tgz"
+downloads[kafka/kafka_2.12-${KAFKA_VERSION}.tgz]="https://downloads.apache.org/kafka/${KAFKA_VERSION}/kafka_2.12-${KAFKA_VERSION}.tgz"
 downloads[kafka/kafka-manager-${KAFKA_MANAGER_VERSION}.tgz]="https://codeload.github.com/yahoo/CMAK/tar.gz/${KAFKA_MANAGER_VERSION}"
 downloads[java/jdk${JAVA_VERSION}.tar.gz]="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_x64_linux_hotspot_${JAVA_VERSION/-/}.tar.gz"
