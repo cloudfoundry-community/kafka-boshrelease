@@ -1,5 +1,6 @@
 ---
 name: kafka-manager
-dependencies: []
+dependencies:
+  - openjdk-8-kafka
 files:
 - kafka/kafka-manager*
