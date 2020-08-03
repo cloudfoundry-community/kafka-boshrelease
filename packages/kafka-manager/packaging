@@ -4,6 +4,9 @@ SOURCE_DIR=${BOSH_COMPILE_TARGET}/kafka-manager
 
 source /var/vcap/packages/openjdk-8-kafka/bosh/compile.env
 
+
+[ ! -d ${SOURCE_DIR} ] && mkdir -p ${SOURCE_DIR}
+
 tar zxf kafka/kafka-manager-*.tgz -C ${SOURCE_DIR} --strip 1
 
 pushd ${SOURCE_DIR}
