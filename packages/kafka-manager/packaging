@@ -1,4 +1,15 @@
 set -e -u
 
-tar xf kafka/kafka-manager-*.tgz -C ${BOSH_INSTALL_TARGET} --strip 1
+SOURCE_DIR=${BOSH_COMPILE_TARGET}/kafka-manager
 
+source /var/vcap/packages/openjdk-8/bosh/runtime.env
+source /var/vcap/packages/openjdk-8/bosh/compile.env
+
+tar zxf kafka/kafka-manager-*.tgz -C ${SOURCE_DIR} --strip 1
+
+pushd ${SOURCE_DIR}
+  TMP_DIR=$(mktemp -d ./tmp.XXXXX)
+  ./sbt -java-home ${JAVA_HOME} clean dist
+  unzip -d ${TMP_DIR} target/universal/kafka-manager-*.zip
+  cp -r ${TMP_DIR}/kafka-manager-*/* ${BOSH_INSTALL_TARGET}
+popd
