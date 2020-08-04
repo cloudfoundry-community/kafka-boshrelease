@@ -1,0 +1,11 @@
+set -ex
+
+mkdir ${BOSH_INSTALL_TARGET}/bosh
+cp openjdk-11/runtime.env ${BOSH_INSTALL_TARGET}/bosh/runtime.env
+cp openjdk-11/compile.env ${BOSH_INSTALL_TARGET}/bosh/compile.env
+
+cd ${BOSH_INSTALL_TARGET}
+mkdir jdk
+tar zxvf ${BOSH_COMPILE_TARGET}/java11/openjdk11.tar.gz -C jdk --strip-components 1
+
+chmod -R a+r jdk

@@ -6,4 +6,4 @@ dependencies: []
 files:
 - openjdk-8/compile.env
 - openjdk-8/runtime.env
-- java/jdk*.tar.gz
+- java8/jdk*.tar.gz

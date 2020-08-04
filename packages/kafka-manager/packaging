@@ -1,17 +1,9 @@
 set -e -u
 
-SOURCE_DIR=${BOSH_COMPILE_TARGET}/kafka-manager
+VENDOR_SOURCE_DIR=${BOSH_INSTALL_TARGET}/vendor
 
-source /var/vcap/packages/openjdk-8-kafka/bosh/compile.env
+mkdir -p ${VENDOR_SOURCE_DIR}
 
+unzip -d ${VENDOR_SOURCE_DIR} kafka/kafka-manager-*.zip 
 
-[ ! -d ${SOURCE_DIR} ] && mkdir -p ${SOURCE_DIR}
-
-tar zxf kafka/kafka-manager-*.tgz -C ${SOURCE_DIR} --strip 1
-
-pushd ${SOURCE_DIR}
-  TMP_DIR=$(mktemp -d ./tmp.XXXXX)
-  ./sbt -java-home ${JAVA_HOME} clean dist
-  unzip -d ${TMP_DIR} target/universal/kafka-manager-*.zip
-  cp -r ${TMP_DIR}/kafka-manager-*/* ${BOSH_INSTALL_TARGET}
-popd
+cp -aR ${VENDOR_SOURCE_DIR}/cmak*/* ${BOSH_INSTALL_TARGET}
