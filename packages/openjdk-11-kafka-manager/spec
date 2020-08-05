@@ -1,0 +1,9 @@
+---
+name: openjdk-11-kafka-manager
+
+dependencies: []
+
+files:
+- openjdk-11/compile.env
+- openjdk-11/runtime.env
+- java11/openjdk11.tar.gz

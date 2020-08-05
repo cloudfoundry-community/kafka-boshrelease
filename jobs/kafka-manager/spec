@@ -2,7 +2,7 @@
 name: kafka-manager
 
 packages:
-- openjdk-8-kafka
+- openjdk-11-kafka-manager
 - kafka-manager
 
 templates:
