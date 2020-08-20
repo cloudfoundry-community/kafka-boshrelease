@@ -2,7 +2,7 @@
 
 set -e
 
-source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
+source /var/vcap/packages/openjdk-11-kafka-manager/bosh/runtime.env
 export PATH=$PATH:/var/vcap/packages/kafka-manager/bin:$PATH
 
 export CLASSPATH=${CLASSPATH:-''}
@@ -15,7 +15,7 @@ export LOG_DIR=/var/vcap/sys/log/kafka-manager
 case $1 in
 
   start)
-    exec /var/vcap/packages/kafka-manager/bin/kafka-manager \
+    exec /var/vcap/packages/kafka-manager/bin/cmak \
       -Dconfig.file=/var/vcap/jobs/kafka-manager/config/application.conf \
       -Dhttp.port=<%= properties.listen_port %> \
       -Dpidfile.path=/dev/null \
