@@ -1,0 +1,661 @@
+addons:
+- jobs:
+  - name: bpm
+    release: bpm
+  name: bpm
+- include:
+    jobs:
+    - name: zookeeper
+      release: zookeeper
+  jobs:
+  - name: dd-agent
+    properties:
+      dd:
+        api_key: 07197a13831cd20710529718aa82ac83
+        friendly_hostname: false
+        integrations:
+          zk:
+            init_config: null
+            instances:
+            - host: localhost
+              port: 2181
+        skip_ssl_validation: true
+        tags:
+        - product:connected_archive
+        - customer:bny
+        - country:emea
+        - region:z1,z2
+        - env:bnyemeauat
+        - role:zookeeper
+        - host_group:zookeeper
+        - cluster_name:kafzoo
+        url: https://10.165.241.239:3834
+        use_dogstatsd: true
+        use_uuid_hostname: true
+    release: datadog-agent
+  name: zk-dd-agent
+- include:
+    jobs:
+    - name: kafka
+      release: kafka_2.4.1
+  jobs:
+  - name: dd-agent
+    properties:
+      dd:
+        api_key: 07197a13831cd20710529718aa82ac83
+        friendly_hostname: false
+        generate_processes: false
+        integrations:
+          kafka:
+            init_config:
+              collect_default_metrics: false
+              conf:
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.producer.request_rate
+                      metric_type: rate
+                  bean_regex: kafka\.producer:type=ProducerRequestMetrics,name=ProducerRequestRateAndTimeMs,clientId=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    Mean:
+                      alias: kafka.producer.request_latency_avg
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=ProducerRequestMetrics,name=ProducerRequestRateAndTimeMs,clientId=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.producer.bytes_out
+                      metric_type: rate
+                  bean_regex: kafka\.producer:type=ProducerTopicMetrics,name=BytesPerSec,clientId=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.producer.message_rate
+                      metric_type: rate
+                  bean_regex: kafka\.producer:type=ProducerTopicMetrics,name=MessagesPerSec,clientId=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    response-rate:
+                      alias: kafka.producer.response_rate
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=producer-metrics,client-id=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    request-rate:
+                      alias: kafka.producer.request_rate
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=producer-metrics,client-id=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    request-latency-avg:
+                      alias: kafka.producer.request_latency_avg
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=producer-metrics,client-id=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    outgoing-byte-rate:
+                      alias: kafka.producer.bytes_out
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=producer-metrics,client-id=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    io-wait-time-ns-avg:
+                      alias: kafka.producer.io_wait
+                      metric_type: gauge
+                  bean_regex: kafka\.producer:type=producer-metrics,client-id=.*
+                  domain: kafka.producer
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.consumer.max_lag
+                      metric_type: gauge
+                  bean_regex: kafka\.consumer:type=ConsumerFetcherManager,name=MaxLag,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.consumer.fetch_rate
+                      metric_type: gauge
+                  bean_regex: kafka\.consumer:type=ConsumerFetcherManager,name=MinFetchRate,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.consumer.bytes_in
+                      metric_type: rate
+                  bean_regex: kafka\.consumer:type=ConsumerTopicMetrics,name=BytesPerSec,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.consumer.messages_in
+                      metric_type: rate
+                  bean_regex: kafka\.consumer:type=ConsumerTopicMetrics,name=MessagesPerSec,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.consumer.zookeeper_commits
+                      metric_type: rate
+                  bean_regex: kafka\.consumer:type=ZookeeperConsumerConnector,name=ZooKeeperCommitsPerSec,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.consumer.kafka_commits
+                      metric_type: rate
+                  bean_regex: kafka\.consumer:type=ZookeeperConsumerConnector,name=KafkaCommitsPerSec,clientId=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    bytes-consumed-rate:
+                      alias: kafka.consumer.bytes_in
+                      metric_type: gauge
+                  bean_regex: kafka\.consumer:type=consumer-fetch-manager-metrics,client-id=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    records-consumed-rate:
+                      alias: kafka.consumer.messages_in
+                      metric_type: gauge
+                  bean_regex: kafka\.consumer:type=consumer-fetch-manager-metrics,client-id=.*
+                  domain: kafka.consumer
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.net.bytes_out.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=BytesOutPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.net.bytes_in.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=BytesInPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.messages_in.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=MessagesInPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.net.bytes_rejected.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=BytesRejectedPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.fetch.failed.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=FailedFetchRequestsPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.produce.failed.rate
+                      metric_type: rate
+                  bean: kafka.server:type=BrokerTopicMetrics,name=FailedProduceRequestsPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.produce.rate
+                      metric_type: rate
+                  bean: kafka.network:type=RequestMetrics,name=RequestsPerSec,request=Produce
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.produce.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.produce.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=Produce
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.fetch_consumer.rate
+                      metric_type: rate
+                  bean: kafka.network:type=RequestMetrics,name=RequestsPerSec,request=FetchConsumer
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.fetch_follower.rate
+                      metric_type: rate
+                  bean: kafka.network:type=RequestMetrics,name=RequestsPerSec,request=FetchFollower
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.fetch_consumer.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.fetch_consumer.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=FetchConsumer
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.fetch_follower.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.fetch_follower.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=FetchFollower
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.update_metadata.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.update_metadata.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=UpdateMetadata
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.metadata.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.metadata.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=Metadata
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    99thPercentile:
+                      alias: kafka.request.offsets.time.99percentile
+                      metric_type: gauge
+                    Mean:
+                      alias: kafka.request.offsets.time.avg
+                      metric_type: gauge
+                  bean: kafka.network:type=RequestMetrics,name=TotalTimeMs,request=Offsets
+                  domain: kafka.network
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.request.handler.avg.idle.pct.rate
+                      metric_type: rate
+                  bean: kafka.server:type=KafkaRequestHandlerPool,name=RequestHandlerAvgIdlePercent
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.request.producer_request_purgatory.size
+                      metric_type: gauge
+                  bean: kafka.server:type=ProducerRequestPurgatory,name=PurgatorySize
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.request.fetch_request_purgatory.size
+                      metric_type: gauge
+                  bean: kafka.server:type=FetchRequestPurgatory,name=PurgatorySize
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.under_replicated_partitions
+                      metric_type: gauge
+                  bean: kafka.server:type=ReplicaManager,name=UnderReplicatedPartitions
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.replication.isr_shrinks.rate
+                      metric_type: rate
+                  bean: kafka.server:type=ReplicaManager,name=IsrShrinksPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.replication.isr_expands.rate
+                      metric_type: rate
+                  bean: kafka.server:type=ReplicaManager,name=IsrExpandsPerSec
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.replication.leader_elections.rate
+                      metric_type: rate
+                  bean: kafka.controller:type=ControllerStats,name=LeaderElectionRateAndTimeMs
+                  domain: kafka.controller
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.replication.unclean_leader_elections.rate
+                      metric_type: rate
+                  bean: kafka.controller:type=ControllerStats,name=UncleanLeaderElectionsPerSec
+                  domain: kafka.controller
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.offline_partitions_count
+                      metric_type: gauge
+                  bean: kafka.controller:type=KafkaController,name=OfflinePartitionsCount
+                  domain: kafka.controller
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.active_controller_count
+                      metric_type: gauge
+                  bean: kafka.controller:type=KafkaController,name=ActiveControllerCount
+                  domain: kafka.controller
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.partition_count
+                      metric_type: gauge
+                  bean: kafka.server:type=ReplicaManager,name=PartitionCount
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.leader_count
+                      metric_type: gauge
+                  bean: kafka.server:type=ReplicaManager,name=LeaderCount
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Value:
+                      alias: kafka.replication.max_lag
+                      metric_type: gauge
+                  bean: kafka.server:type=ReplicaFetcherManager,name=MaxLag,clientId=Replica
+                  domain: kafka.server
+              - include:
+                  attribute:
+                    Count:
+                      alias: kafka.log.flush_rate.rate
+                      metric_type: rate
+                  bean: kafka.log:type=LogFlushStats,name=LogFlushRateAndTimeMs
+                  domain: kafka.log
+              is_jmx: true
+            instances:
+            - host: localhost
+              java_bin_path: /var/vcap/packages/openjdk-8-kafka/jre/bin/java
+              port: 9090
+              tags:
+                kafka: broker
+              tools_jar_path: /var/vcap/packages/openjdk-8-kafka/lib/tools.jar
+            logs:
+            - path: /var/vcap/sys/log/kafka/*.log
+              type: file
+        skip_ssl_validation: true
+        tags:
+        - product:connected_archive
+        - customer:bny
+        - country:emea
+        - region:z1,z2
+        - env:bnyemeauat
+        - role:kafka
+        - host_group:kafka
+        - cluster_name:kafzoo
+        url: https://10.165.241.239:3834
+        use_dogstatsd: true
+        use_uuid_hostname: true
+    release: datadog-agent
+  name: kafka-dd-agent
+instance_groups:
+- azs:
+  - z1
+  - z2
+  instances: 3
+  jobs:
+  - name: zookeeper
+    properties: {}
+    release: zookeeper
+  - name: status
+    properties: {}
+    release: zookeeper
+  name: zookeeper
+  networks:
+  - name: default
+  persistent_disk: 10240
+  stemcell: default
+  vm_type: large
+- azs:
+  - z1
+  - z2
+  instances: 1
+  jobs:
+  - name: kafka-manager
+    properties:
+      password: 9bp9f212p1r48h2d7ivb
+      username: admin
+    release: kafka_2.4.1
+  name: kafka-manager
+  networks:
+  - name: default
+  persistent_disk: 10240
+  stemcell: default
+  vm_type: medium
+- azs:
+  - z1
+  - z2
+  instances: 3
+  jobs:
+  - name: kafka
+    properties:
+      jmx_port: 9090
+      kafka:
+        jmx:
+          port: 9090
+      topics:
+      - name: Reindex
+        partitions: 16
+        replication_factor: 3
+      - name: cephboot
+        partitions: 16
+        replication_factor: 3
+      - name: cephbootsec
+        partitions: 16
+        replication_factor: 3
+      - name: drPriPrimary
+        partitions: 16
+        replication_factor: 3
+      - name: drPriSecondary
+        partitions: 16
+        replication_factor: 3
+      - name: drSeqPrimary
+        partitions: 16
+        replication_factor: 3
+      - name: drSeqSecondary
+        partitions: 16
+        replication_factor: 3
+      - name: errorMetrics
+        partitions: 16
+        replication_factor: 3
+      - name: export
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchiveLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchiveMediumLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchiveMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchivePriorityTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchiveSmallMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportArchiveSmallTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoveryLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoveryMediumLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoveryMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoveryPriorityTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoverySmallMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportEdiscoverySmallTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailMediumLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailPriorityTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailSmallMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportMsgNonEmailSmallTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportPriorityTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionMediumLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionPriorityTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionSmallMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: exportSupervisionSmallTopic
+        partitions: 16
+        replication_factor: 3
+      - name: holdLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: holdMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: holdSmalTopic
+        partitions: 16
+        replication_factor: 3
+      - name: jobs
+        partitions: 16
+        replication_factor: 3
+      - name: largeHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+      - name: largemsg
+        partitions: 16
+        replication_factor: 3
+      - name: lfs
+        partitions: 16
+        replication_factor: 3
+      - name: mediumHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+      - config: retention.ms=2592000000
+        name: purge
+        partitions: 16
+        replication_factor: 3
+      - name: refreshIndexJobs
+        partitions: 16
+        replication_factor: 3
+      - name: reindex
+        partitions: 16
+        replication_factor: 3
+      - name: reindexMetrics
+        partitions: 16
+        replication_factor: 3
+      - name: rs1
+        partitions: 16
+        replication_factor: 3
+      - name: smallHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervision
+        partitions: 3
+        replication_factor: 3
+      - name: supervisionLargeTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervisionMediumTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervisionSmalTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervisionlargeHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervisionmediumHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+      - name: supervisionsmallHoldTagTopic
+        partitions: 16
+        replication_factor: 3
+    release: kafka_2.4.1
+  name: kafka
+  networks:
+  - name: default
+  persistent_disk: 102400
+  stemcell: default
+  vm_type: large
+name: kafka-emea-uat
+releases:
+- name: bpm
+  url: git+https://github.com/cloudfoundry-incubator/bpm-release
+  version: 0.2.0
+- name: zookeeper
+  url: git+https://github.com/cppforlife/zookeeper-release
+  version: 0.0.7
+- name: kafka_2.4.1
+  version: 0.1.7
+- name: datadog-agent
+  url: git+https://github.com/DataDog/datadog-agent-boshrelease.git
+  version: 2.7.6100
+stemcells:
+- alias: default
+  os: ubuntu-xenial
+  version: latest
+update:
+  canaries: 1
+  canary_watch_time: 1000-60000
+  max_in_flight: 1
+  serial: true
+  update_watch_time: 1000-60000
+variables: []

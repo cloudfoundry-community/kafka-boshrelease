@@ -7,7 +7,7 @@ set -u # report the usage of uninitialized variables
 
 ############################################################################
 
-source /var/vcap/packages/openjdk-8-kafka/bosh/runtime.env
+source /var/vcap/packages/openjdk-11-kafka-manager/bosh/runtime.env
 export PATH=$PATH:/var/vcap/packages/kafka/bin:$PATH
 
 CDIR=/var/vcap/jobs/kafka-manager/config

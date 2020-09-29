@@ -1,5 +1,9 @@
 set -e -u
 
-unzip ${BOSH_COMPILE_TARGET}/kafka/kafka-manager-*.zip
+VENDOR_SOURCE_DIR=${BOSH_INSTALL_TARGET}/vendor
 
-cp -a ${BOSH_COMPILE_TARGET}/kafka-manager-*/* ${BOSH_INSTALL_TARGET}/
+mkdir -p ${VENDOR_SOURCE_DIR}
+
+unzip -d ${VENDOR_SOURCE_DIR} kafka/kafka-manager-*.zip 
+
+cp -aR ${VENDOR_SOURCE_DIR}/cmak*/* ${BOSH_INSTALL_TARGET}

@@ -1,0 +1,18 @@
+---
+platform: linux
+inputs:
+- name: git-repo
+- name: version
+- name: add-blob-release
+- name: s3-git-prerelease-repo
+outputs:
+- name: release-tarball
+- name: git-release-repo
+- name: version-tag
+
+run:
+  path: git-repo/ci/tasks/create-final-release.sh
+
+params:
+  AWS_ACCESS_KEY_ID:
+  AWS_SECRET_ACCESS_KEY:

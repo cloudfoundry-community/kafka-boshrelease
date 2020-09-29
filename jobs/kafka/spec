@@ -103,3 +103,28 @@ properties:
   jaas_admin.password:
     description: "admin password used in JAAS configuration"
     default: "admin-secret"
+
+  broker_rack:
+    description: |
+      This will be used in rack aware replication assignment for fault tolerance
+      The only appropriate value that can be used here is "az" which will automatically
+      assign the availability zone that the broker is deployed to.  This only makes sence
+      if the Kafka cluster is distributed across availability zone boundaries
+    
+  controlled_shutdown_enable:
+    description: |
+      controlled leadership migration occurs when this is enabled - the kafka controller is 
+      responsible for cluster state management of topics, partitions, replicas and brokers
+      its important to make sure that partitions have replicas that are located on other 
+      replicas not only the broker that is being shutdown.  If that happens then the topic
+      partition will be unavailable.  So replica factor of at least 2 is necessary
+    default: true
+
+  controlled_shutdown_max_retries:
+    description:
+       Controlled shutdown can fail for multiple reasons.
+       This determines the number of retries when such failure happens
+    default: 3
+
+
+  
